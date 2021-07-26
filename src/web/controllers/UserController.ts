@@ -9,7 +9,7 @@ import { CreateUserResponseContract } from '../contracts/response/CreateUserResp
 export class UserController {
   constructor(private readonly _createUserUseCase: CreateUserUseCase) {}
 
-  store(req: Request, res: Response) {
+  async store(req: Request, res: Response) {
     // Validate and map to request contract
     const createUserRequestContract = CreateUserRequestContract.from(req.body)
 
@@ -19,7 +19,7 @@ export class UserController {
     )
 
     // Execute useCase
-    const result = this._createUserUseCase.execute(createUserRequestModel)
+    const result = await this._createUserUseCase.execute(createUserRequestModel)
 
     // If there is an error we throw a *http* error
     if (result.isErr()) {

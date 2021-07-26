@@ -18,14 +18,14 @@ export class CreateUserUseCase
     private readonly _userRepository: IUserRepository
   ) {}
 
-  execute(
+  async execute(
     createUser: CreateUserRequestModel
-  ): Result<CreateUserResponseModel, string> {
+  ): Promise<Result<CreateUserResponseModel, string>> {
     // Map to entity which auto generates an ID for us
     const entity = UserEntity.create(createUser.firstName, createUser.lastName)
 
     // Persist the entity
-    const saved = this._userRepository.save(entity)
+    const saved = await this._userRepository.save(entity)
 
     if (!saved) {
       err('Could not create user')

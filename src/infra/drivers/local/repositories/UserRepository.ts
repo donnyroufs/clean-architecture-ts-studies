@@ -9,15 +9,15 @@ import { UserModel } from '../models/UserModel'
 export class UserRepository implements IUserRepository {
   constructor(private readonly _database: LocalDatabase) {}
 
-  find(): UserEntity[] {
+  find(): Promise<UserEntity[]> {
     throw new Error('Method not implemented.')
   }
 
-  findOne(id: string): UserEntity | null {
+  findOne(id: string): Promise<UserEntity | null> {
     throw new Error('Method not implemented.')
   }
 
-  save(entity: UserEntity): boolean {
+  async save(entity: UserEntity): Promise<boolean> {
     // Map to db model
     const model = UserModel.from(entity)
 
@@ -27,11 +27,11 @@ export class UserRepository implements IUserRepository {
     return isCreated
   }
 
-  updateOne(partialEntity: UpdateEntity<UserEntity>): boolean {
+  updateOne(partialEntity: UpdateEntity<UserEntity>): Promise<boolean> {
     throw new Error('Method not implemented.')
   }
 
-  deleteOne(id: string): boolean {
+  deleteOne(id: string): Promise<boolean> {
     throw new Error('Method not implemented.')
   }
 }
