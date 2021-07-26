@@ -4,6 +4,7 @@
   "main": "bootstrap.ts",
   "author": "donnyroufs",
   "scripts": {
+    "predev": "yarn migrate",
     "dev": "ts-node-dev --respawn --transpile-only --no-notify -r tsconfig-paths/register src/bootstrap.ts",
     "migrate": "prisma migrate dev --schema ./src/infra/drivers/prisma/schema.prisma",
     "test": "NODE_ENV=test jest --collect-coverage",

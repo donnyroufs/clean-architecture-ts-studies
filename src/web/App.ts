@@ -15,9 +15,9 @@ export class App extends Kondah {
     services.register(CreateUserUseCase)
 
     // Infra
-    services.register(LocalDatabase) // LocalDatabase | PrismaDatabase
+    services.register(PrismaDatabase) // LocalDatabase | PrismaDatabase
     services.register(IUserRepositoryToken, {
-      asClass: LocalUserRepository, // LocalUserRepository | PrismaUserRepository
+      asClass: PrismaUserRepository, // LocalUserRepository | PrismaUserRepository
     })
 
     // Web

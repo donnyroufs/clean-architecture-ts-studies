@@ -1,5 +1,22 @@
 version: '3'
+
 services:
+  api:
+    image: clean-architecture-01
+    build: .
+    stdin_open: true
+    env_file:
+      - ./.env
+    ports:
+      - '5000:5000'
+    networks:
+      - clean-architecture-01
+    depends_on:
+      - db
+    networks:
+      - clean-architecture-01
+    volumes:
+      - .:/usr/src/app
   db:
     image: postgres:11
     restart: 'no'
@@ -9,8 +26,8 @@ services:
       - POSTGRES_DB=clean-architecture-01
     ports:
       - 5432:5432
-  adminer:
-    image: adminer
-    restart: 'no'
-    ports:
-      - 5051:8080
+    networks:
+      - clean-architecture-01
+networks:
+  clean-architecture-01:
+    driver: bridge
