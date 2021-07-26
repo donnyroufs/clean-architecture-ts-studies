@@ -10,6 +10,12 @@ import { PrismaUserRepository } from '@/infra/drivers/prisma/repositories/Prisma
 import { PrismaDatabase } from '@/infra/drivers/prisma/PrismaDatabase'
 
 export class App extends Kondah {
+  constructor() {
+    super({
+      config: {},
+    })
+  }
+
   protected configureServices(services: Energizor): void | Promise<void> {
     // Application
     services.register(CreateUserUseCase)
@@ -36,3 +42,5 @@ export class App extends Kondah {
     process.on('SIGTERM', () => process.exit())
   }
 }
+
+new App()
