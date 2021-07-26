@@ -50,7 +50,3 @@ export interface IPresenter<I, O = unknown> {
 ```
 
 The ultimate goal of a Presenter is to decouple the Application from a Delivery Mechanicsm(e.g Web). The Web will use it to map from the `output port` to it's own contract/view model/dto and then return it. I also **think** that it's perfectly valid to shape it even more. E.g. for a web api you might want the presenter to return a http response. (data + statusCode...)
-
-## Questions
-
-- Do we need to create an interface for useCases? Since application has Application specific business rules which to me sounds like we _might_ want different use-cases?
