@@ -1,13 +1,13 @@
+import { IUserRepository } from '@/application/interfaces/IUserRepository'
 import { UpdateEntity } from '@/domain/common/UpdateEntity'
 import { UserEntity } from '@/domain/entities/UserEntity'
 import { Injectable } from '@kondah/core'
-import { IUserRepository } from '../../../../application/interfaces/IUserRepository'
-import { LocalDatabase } from '../LocalDatabase'
-import { UserModel } from '../models/UserModel'
+import { PrismaUserModel } from '../models/PrismaUserModel'
+import { PrismaDatabase } from '../PrismaDatabase'
 
 @Injectable()
-export class UserRepository implements IUserRepository {
-  constructor(private readonly _database: LocalDatabase) {}
+export class PrismaUserRepository implements IUserRepository {
+  constructor(private readonly _database: PrismaDatabase) {}
 
   find(): Promise<UserEntity[]> {
     throw new Error('Method not implemented.')
@@ -18,13 +18,15 @@ export class UserRepository implements IUserRepository {
   }
 
   async save(entity: UserEntity): Promise<boolean> {
-    // Map to db model
-    const model = UserModel.from(entity)
+    const userModel = PrismaUserModel.from(entity)
 
-    // Create user
-    const isCreated = this._database.createOne(model)
+    const created = await this._database.user.create({
+      data: {
+        ...userModel,
+      },
+    })
 
-    return isCreated
+    return !!created
   }
 
   updateOne(partialEntity: UpdateEntity<UserEntity>): Promise<boolean> {

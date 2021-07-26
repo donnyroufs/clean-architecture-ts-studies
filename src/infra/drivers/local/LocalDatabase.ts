@@ -1,11 +1,11 @@
 import { Injectable } from '@kondah/core'
-import { UserModel } from './models/UserModel'
+import { LocalUserModel } from './models/LocalUserModel'
 
 @Injectable()
 export class LocalDatabase {
-  private _users: UserModel[] = []
+  private _users: LocalUserModel[] = []
 
-  createOne(entity: UserModel): boolean {
+  createOne(entity: LocalUserModel): boolean {
     this._users.push(entity)
 
     return true

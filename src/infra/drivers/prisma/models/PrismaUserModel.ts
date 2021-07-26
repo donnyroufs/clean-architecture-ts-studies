@@ -2,13 +2,13 @@
 
 import { UserEntity } from '@/domain/entities/UserEntity'
 
-export class UserModel {
+export class PrismaUserModel {
   id: string
   firstName: string
   lastName: string
 
   static from(entity: UserEntity) {
-    const model = new UserModel()
+    const model = new PrismaUserModel()
 
     model.id = entity.id
     model.firstName = entity.firstName

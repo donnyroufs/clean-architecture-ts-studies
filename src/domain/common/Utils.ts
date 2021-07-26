@@ -1,5 +1,10 @@
 export class Utils {
   static generateUniqueId() {
-    return Date.now().toString(36) + Math.random().toString(36).substring(2)
+    const S4 = () =>
+      Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1)
+
+    return `${S4()}${S4()}-${S4()}-${S4()}-${S4()}-${S4()}${S4()}${S4()}`.toLocaleLowerCase()
   }
 }
