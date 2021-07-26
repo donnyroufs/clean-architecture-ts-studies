@@ -1,5 +1,5 @@
 import { Result } from '@Domain/common/Result'
 
-export interface IUseCase<T, E> {
-  execute(...args: unknown[]): Promise<Result<T, E>>
+export interface IUseCase<I, O> {
+  execute(request: I): Promise<Result<O, string>>
 }
