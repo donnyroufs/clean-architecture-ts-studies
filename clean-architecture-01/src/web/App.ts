@@ -2,8 +2,12 @@ import { AppContext, Energizor, Kondah, Logger } from '@kondah/core'
 import express from 'express'
 
 import { AppDependencyInjection } from '@Application/AppDependencyInjection'
-import { InfraDependencyInjection } from '@Infra/InfraDependencyInjection'
+import { CreateUserUseCasePresenterToken } from '@Application/common/tokens/CreateUserUseCasePresenterToken'
 import { UserController } from '@Web/controllers/UserController'
+import { CreateUserUseCasePresenter } from '@Web/presenters/CreateUserUseCasePresenter'
+
+// This is your only dependency ever on Infra from Web
+import { InfraDependencyInjection } from '@Infra/InfraDependencyInjection'
 
 export class App extends Kondah {
   constructor() {
@@ -15,6 +19,9 @@ export class App extends Kondah {
   }
 
   protected configureServices(services: Energizor): void | Promise<void> {
+    services.register(CreateUserUseCasePresenterToken, {
+      asClass: CreateUserUseCasePresenter,
+    })
     services.register(UserController)
   }
 

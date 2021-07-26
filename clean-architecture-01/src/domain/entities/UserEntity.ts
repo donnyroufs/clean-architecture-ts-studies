@@ -14,6 +14,8 @@ export class UserEntity extends BaseEntity {
       user.id = id
     }
 
+    // TODO: Do business logic here
+
     return user
   }
 }

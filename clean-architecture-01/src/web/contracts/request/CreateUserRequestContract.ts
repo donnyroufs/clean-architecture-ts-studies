@@ -1,4 +1,4 @@
-import { CreateUserRequestModel } from '@Application/models/request/CreateUserRequestModel'
+import { CreateUserInputPort } from '@Application/ports/input/CreateUserInputPort'
 
 export class CreateUserRequestContract {
   constructor(
@@ -21,8 +21,8 @@ export class CreateUserRequestContract {
     return new CreateUserRequestContract(body.firstName, body.lastName)
   }
 
-  static toApplication(createUserRequestContract: CreateUserRequestContract) {
-    return new CreateUserRequestModel(
+  static toCore(createUserRequestContract: CreateUserRequestContract) {
+    return new CreateUserInputPort(
       createUserRequestContract.firstName,
       createUserRequestContract.lastName
     )

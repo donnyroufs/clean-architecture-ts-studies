@@ -1,4 +1,4 @@
-import { CreateUserResponseModel } from '@Application/models/response/CreateUserResponseModel'
+import { CreateUserOutputPort } from '@Application/ports/output/CreateUserOutputPort'
 import { BaseResponseContract } from '@Web/common/BaseResponseContract'
 
 export class CreateUserResponseContract extends BaseResponseContract {
@@ -13,11 +13,10 @@ export class CreateUserResponseContract extends BaseResponseContract {
     return `${this.firstName} ${this.lastName}`
   }
 
-  // Technically not from persistance?
-  static from(persistance: CreateUserResponseModel) {
+  static from(outputPort: CreateUserOutputPort) {
     return new CreateUserResponseContract(
-      persistance.firstName,
-      persistance.lastName
+      outputPort.firstName,
+      outputPort.lastName
     )
   }
 }
