@@ -1,19 +1,13 @@
+import { Injectable } from '@kondah/core'
 import { UserModel } from './models/UserModel'
 
+@Injectable()
 export class LocalDatabase {
   private _users: UserModel[] = []
 
-  constructor(users: UserModel[] = []) {
-    this._users = users
-  }
+  createOne(entity: UserModel): boolean {
+    this._users.push(entity)
 
-  findOne(id: string): UserModel | null {
-    const foundUser = this._users.find((u) => u.id === id)
-
-    if (!foundUser) {
-      return null
-    }
-
-    return foundUser
+    return true
   }
 }

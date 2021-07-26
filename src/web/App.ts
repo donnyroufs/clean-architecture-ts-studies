@@ -1,20 +1,28 @@
-import { LocalDatabase } from '../infra/drivers/local/LocalDatabase'
-import { UserModel } from '../infra/drivers/local/models/UserModel'
-import { UserRepository } from '../infra/drivers/local/repositories/UserRepository'
-import { VendingMachineRepository } from '../infra/drivers/local/repositories/VendingMachineRepository'
-import { BuyColaUseCase } from '../application/useCases/BuyColaUseCase'
-import { VendingController } from './controllers/VendingController'
+import express from 'express'
 
-export class App {
-  static run(fakeUser: UserModel) {
-    const database = new LocalDatabase([fakeUser])
-    const vendingRepo = new VendingMachineRepository(database)
-    const userRepo = new UserRepository(database)
-    const useCase = new BuyColaUseCase(vendingRepo, userRepo)
-    const controller = new VendingController(useCase)
+import { IUserRepositoryToken } from '@/application/interfaces/IUserRepository'
+import { CreateUserUseCase } from '@/application/useCases/CreateUserUseCase'
+import { LocalDatabase } from '@/infra/drivers/local/LocalDatabase'
+import { UserRepository } from '@/infra/drivers/local/repositories/UserRepository'
+import { AppContext, Energizor, Kondah } from '@kondah/core'
+import { UserController } from './controllers/UserController'
 
-    const response = controller.buyCola(fakeUser.id)
+export class App extends Kondah {
+  protected configureServices(services: Energizor): void | Promise<void> {
+    services.register(LocalDatabase)
+    services.register(CreateUserUseCase)
+    services.register(IUserRepositoryToken, {
+      asClass: UserRepository,
+    })
+    services.register(UserController)
+  }
 
-    console.log({ controllerResponse: response })
+  protected setup(context: AppContext): void | Promise<void> {
+    const controller = context.energizor.get(UserController)
+
+    context.server.addGlobalMiddleware(express.json())
+    context.server.router.post('/', (req, res) => controller.store(req, res))
+
+    context.server.run(5000)
   }
 }

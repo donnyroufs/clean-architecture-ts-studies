@@ -1,9 +1,19 @@
 import { BaseEntity } from '../common/BaseEntity'
 
 export class UserEntity extends BaseEntity {
-  public money = 0
+  firstName: string
+  lastName: string
 
-  hasMoney() {
-    return this.money > 0
+  static create(firstName: string, lastName: string, id?: string) {
+    const user = new UserEntity()
+
+    user.firstName = firstName
+    user.lastName = lastName
+
+    if (id) {
+      user.id = id
+    }
+
+    return user
   }
 }

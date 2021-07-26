@@ -32,5 +32,8 @@
       "yarn prettier --write",
       "yarn test --watchAll=false --findRelatedTests --bail"
     ]
+  },
+  "dependencies": {
+    "@kondah/core": "^0.0.15"
   }
 }
