@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
-
-import { CreateUserUseCase } from '@/application/useCases/CreateUserUseCase'
 import { Injectable } from '@kondah/core'
-import { CreateUserRequestContract } from '../contracts/request/CreateUserRequestContract'
-import { CreateUserResponseContract } from '../contracts/response/CreateUserResponseContract'
+
+import { CreateUserUseCase } from '@Application/useCases/CreateUserUseCase'
+import { CreateUserRequestContract } from '@Web/contracts/request/CreateUserRequestContract'
+import { CreateUserResponseContract } from '@Web/contracts/response/CreateUserResponseContract'
 
 @Injectable()
 export class UserController {

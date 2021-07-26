@@ -1,4 +1,4 @@
-import { BaseEntity } from '../common/BaseEntity'
+import { BaseEntity } from '@Domain/common/BaseEntity'
 
 export class UserEntity extends BaseEntity {
   firstName: string

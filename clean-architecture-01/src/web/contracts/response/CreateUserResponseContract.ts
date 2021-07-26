@@ -1,5 +1,5 @@
-import { CreateUserResponseModel } from '@/application/models/response/CreateUserResponseModel'
-import { BaseResponseContract } from '@/web/common/BaseResponseContract'
+import { CreateUserResponseModel } from '@Application/models/response/CreateUserResponseModel'
+import { BaseResponseContract } from '@Web/common/BaseResponseContract'
 
 export class CreateUserResponseContract extends BaseResponseContract {
   constructor(

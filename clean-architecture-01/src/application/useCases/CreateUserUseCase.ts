@@ -1,13 +1,14 @@
-import { Result, err, ok } from '../../domain/common/Result'
-import { IUseCase } from '../../domain/common/interfaces/IUseCase'
+import { Inject, Injectable } from '@kondah/core'
+
+import { Result, err, ok } from '@Domain/common/Result'
+import { UserEntity } from '@Domain/entities/UserEntity'
+import { IUseCase } from '@Domain/common/interfaces/IUseCase'
 import {
   IUserRepository,
   IUserRepositoryToken,
-} from '../interfaces/IUserRepository'
-import { UserEntity } from '@/domain/entities/UserEntity'
-import { CreateUserRequestModel } from '../models/request/CreateUserRequestModel'
-import { CreateUserResponseModel } from '../models/response/CreateUserResponseModel'
-import { Inject, Injectable } from '@kondah/core'
+} from '@Application/common/interfaces/IUserRepository'
+import { CreateUserRequestModel } from '@Application/models/request/CreateUserRequestModel'
+import { CreateUserResponseModel } from '@Application/models/response/CreateUserResponseModel'
 
 @Injectable()
 export class CreateUserUseCase
@@ -31,6 +32,6 @@ export class CreateUserUseCase
       err('Could not create user')
     }
 
-    return ok(new CreateUserResponseModel(entity.firstName, entity.lastName))
+    return ok(CreateUserResponseModel.from(entity))
   }
 }

@@ -1,9 +1,10 @@
-import { UpdateEntity } from '@/domain/common/UpdateEntity'
-import { UserEntity } from '@/domain/entities/UserEntity'
 import { Injectable } from '@kondah/core'
-import { IUserRepository } from '../../../../application/interfaces/IUserRepository'
-import { LocalDatabase } from '../LocalDatabase'
-import { LocalUserModel } from '../models/LocalUserModel'
+
+import { UserEntity } from '@Domain/entities/UserEntity'
+import { UpdateEntity } from '@Application/common/UpdateEntity'
+import { IUserRepository } from '@Application/common/interfaces/IUserRepository'
+import { LocalDatabase } from '@Infra/drivers/local/LocalDatabase'
+import { LocalUserModel } from '@Infra/drivers/local/models/LocalUserModel'
 
 @Injectable()
 export class LocalUserRepository implements IUserRepository {

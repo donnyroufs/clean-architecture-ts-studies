@@ -1,5 +1,5 @@
-import { IRepository } from '@/domain/common/interfaces/IRepository'
-import { UserEntity } from '@/domain/entities/UserEntity'
+import { UserEntity } from '@Domain/entities/UserEntity'
+import { IRepository } from '@Application/common/IRepository'
 
 export const IUserRepositoryToken = Symbol('IUserRepositoryToken')
 

@@ -1,3 +1,3 @@
 import 'dotenv/config'
 
-import './web/App'
+import '@Web/App'

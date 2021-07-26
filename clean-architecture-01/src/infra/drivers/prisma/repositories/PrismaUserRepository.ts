@@ -1,9 +1,10 @@
-import { IUserRepository } from '@/application/interfaces/IUserRepository'
-import { UpdateEntity } from '@/domain/common/UpdateEntity'
-import { UserEntity } from '@/domain/entities/UserEntity'
 import { Injectable } from '@kondah/core'
-import { PrismaUserModel } from '../models/PrismaUserModel'
-import { PrismaDatabase } from '../PrismaDatabase'
+
+import { UserEntity } from '@Domain/entities/UserEntity'
+import { UpdateEntity } from '@Application/common/UpdateEntity'
+import { IUserRepository } from '@Application/common/interfaces/IUserRepository'
+import { PrismaUserModel } from '@Infra/drivers/prisma/models/PrismaUserModel'
+import { PrismaDatabase } from '@Infra/drivers/prisma/PrismaDatabase'
 
 @Injectable()
 export class PrismaUserRepository implements IUserRepository {

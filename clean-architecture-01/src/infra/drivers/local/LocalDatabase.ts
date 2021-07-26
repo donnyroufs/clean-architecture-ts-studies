@@ -1,5 +1,6 @@
 import { Injectable } from '@kondah/core'
-import { LocalUserModel } from './models/LocalUserModel'
+
+import { LocalUserModel } from '@Infra/drivers/local/models/LocalUserModel'
 
 @Injectable()
 export class LocalDatabase {

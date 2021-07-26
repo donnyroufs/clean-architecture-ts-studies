@@ -1,6 +1,4 @@
-// Can we extend the domain entity here? Or should the domain expose an interface, since a domain entity has business logic?
-
-import { UserEntity } from '@/domain/entities/UserEntity'
+import { UserEntity } from '@Domain/entities/UserEntity'
 
 export class LocalUserModel {
   id: string

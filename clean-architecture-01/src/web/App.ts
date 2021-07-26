@@ -1,32 +1,20 @@
+import { AppContext, Energizor, Kondah, Logger } from '@kondah/core'
 import express from 'express'
 
-import { IUserRepositoryToken } from '@/application/interfaces/IUserRepository'
-import { CreateUserUseCase } from '@/application/useCases/CreateUserUseCase'
-import { LocalDatabase } from '@/infra/drivers/local/LocalDatabase'
-import { LocalUserRepository } from '@/infra/drivers/local/repositories/LocalUserRepository'
-import { AppContext, Energizor, Kondah } from '@kondah/core'
-import { UserController } from './controllers/UserController'
-import { PrismaUserRepository } from '@/infra/drivers/prisma/repositories/PrismaUserRepository'
-import { PrismaDatabase } from '@/infra/drivers/prisma/PrismaDatabase'
+import { AppDependencyInjection } from '@Application/AppDependencyInjection'
+import { InfraDependencyInjection } from '@Infra/InfraDependencyInjection'
+import { UserController } from '@Web/controllers/UserController'
 
 export class App extends Kondah {
   constructor() {
     super({
+      logger: new Logger('border'),
+      libraries: [AppDependencyInjection, InfraDependencyInjection],
       config: {},
     })
   }
 
   protected configureServices(services: Energizor): void | Promise<void> {
-    // Application
-    services.register(CreateUserUseCase)
-
-    // Infra
-    services.register(PrismaDatabase) // LocalDatabase | PrismaDatabase
-    services.register(IUserRepositoryToken, {
-      asClass: PrismaUserRepository, // LocalUserRepository | PrismaUserRepository
-    })
-
-    // Web
     services.register(UserController)
   }
 

@@ -1,4 +1,4 @@
-import { CreateUserRequestModel } from '@/application/models/request/CreateUserRequestModel'
+import { CreateUserRequestModel } from '@Application/models/request/CreateUserRequestModel'
 
 export class CreateUserRequestContract {
   constructor(
