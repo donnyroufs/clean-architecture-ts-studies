@@ -12,7 +12,7 @@ import { CreateUserResponseModel } from '@Application/models/response/CreateUser
 
 @Injectable()
 export class CreateUserUseCase
-  implements IUseCase<CreateUserResponseModel, string>
+  implements IUseCase<CreateUserRequestModel, CreateUserResponseModel>
 {
   constructor(
     @Inject(IUserRepositoryToken)
@@ -20,12 +20,10 @@ export class CreateUserUseCase
   ) {}
 
   async execute(
-    createUser: CreateUserRequestModel
-  ): Promise<Result<CreateUserResponseModel, string>> {
-    // Map to entity which auto generates an ID for us
-    const entity = UserEntity.create(createUser.firstName, createUser.lastName)
+    request: CreateUserRequestModel
+  ): Promise<Result<CreateUserRequestModel, string>> {
+    const entity = UserEntity.create(request.firstName, request.lastName)
 
-    // Persist the entity
     const saved = await this._userRepository.save(entity)
 
     if (!saved) {
