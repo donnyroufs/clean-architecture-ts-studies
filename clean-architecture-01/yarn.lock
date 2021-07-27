@@ -333,6 +333,19 @@
   resolved "https://registry.npmjs.org/@istanbuljs/schema/-/schema-0.1.3.tgz"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
+"@jest-decorated/core@^0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@jest-decorated/core/-/core-0.0.23.tgz#14746ed8c4eb21da224f7402e1d2894dd01dca4a"
+  integrity sha512-pOBdhd8vGe4Kv4oJ35VPNvq34IzNLKl2VfjXNT7mKqbM+ZVbmiW1mYqqpwVQiZP7/g8BI+2IYmEPHHYYi44cyg==
+  dependencies:
+    "@jest-decorated/shared" "^0.0.23"
+    "@js-utilities/typecheck" "^0.1.4"
+
+"@jest-decorated/shared@^0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@jest-decorated/shared/-/shared-0.0.23.tgz#0ade39fc53c2537408962d4edd9379d87a6d7dee"
+  integrity sha512-tdK8GBpnJ9+2j7xEFp/g5/N2ak+UNL8l3twLphz3WniisCgcMauX0mdbyokD6teonx5t706Tm/YswQ6sWfnecw==
+
 "@jest/console@^26.6.2":
   version "26.6.2"
   resolved "https://registry.npmjs.org/@jest/console/-/console-26.6.2.tgz"
@@ -503,6 +516,11 @@
     "@types/node" "*"
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
+
+"@js-utilities/typecheck@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@js-utilities/typecheck/-/typecheck-0.1.4.tgz#48dc56e476653cb4953d03e80e887adb337da0e5"
+  integrity sha512-u+M2exrXH9xz1ifgw76amR6uL8RNxSau0JOGnIi4Tse4NhZpaMRElVmvKMhDFgflFzPrhxLHr+rWKBSIvz345Q==
 
 "@kondah/core@^0.0.15":
   version "0.0.15"
