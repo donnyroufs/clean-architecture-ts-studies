@@ -4,15 +4,34 @@ import { IPresenter } from '@Application/common/IPresenter'
 import { CreateUserOutputPort } from '@Application/ports/output/CreateUserOutputPort'
 import { CreateUserResponseContract } from '@Web/contracts/response/CreateUserResponseContract'
 import { HttpResponse } from '@Web/common/HttpResponse'
+import { CoreException } from '@Domain/common/CoreException'
+import { HttpError } from 'routing-controllers'
 
 @Injectable()
 export class CreateUserUseCasePresenter
   implements IPresenter<CreateUserOutputPort>
 {
-  present(result: CreateUserOutputPort): HttpResponse {
-    // TODO: we could use AutoMapper here
-    const createUserResponseContract = CreateUserResponseContract.from(result)
+  present(port: CreateUserOutputPort | CoreException): HttpResponse<string> {
+    if (port instanceof CoreException) {
+      throw new HttpError(400, port.message)
+    }
 
-    return new HttpResponse(createUserResponseContract.toJSON(), 201)
+    return new HttpResponse(
+      CreateUserResponseContract.fromPort(port).toJSON(),
+      201
+    )
   }
 }
+
+/*
+	Alternative way of handling the errors with the Result pattern would look something like this:
+	{
+			if(port.isErr) {
+				throw new HttpError(400, port.message)
+			}
+
+			return new HttpResponse(CreateUserResponseContract.fromPort(port.value).toJSON(),
+				201
+			)
+	}
+*/

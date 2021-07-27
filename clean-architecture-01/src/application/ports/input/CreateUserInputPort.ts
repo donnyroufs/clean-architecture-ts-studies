@@ -6,7 +6,7 @@ export class CreateUserInputPort {
     public readonly lastName: string
   ) {}
 
-  static from(inputPort: CreateUserInputPort) {
+  static toDomain(inputPort: CreateUserInputPort) {
     return UserEntity.create(inputPort.firstName, inputPort.lastName)
   }
 }

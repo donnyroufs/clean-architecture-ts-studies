@@ -13,7 +13,7 @@ export class CreateUserResponseContract extends BaseResponseContract {
     return `${this.firstName} ${this.lastName}`
   }
 
-  static from(outputPort: CreateUserOutputPort) {
+  static fromPort(outputPort: CreateUserOutputPort) {
     return new CreateUserResponseContract(
       outputPort.firstName,
       outputPort.lastName

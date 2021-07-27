@@ -1,6 +1,6 @@
 import { AppContext, Energizor, Kondah, Logger } from '@kondah/core'
-import express from 'express'
 
+import { RestApiPlugin } from '@Web/plugins/RestApiPlugin'
 import { AppDependencyInjection } from '@Application/AppDependencyInjection'
 import { CreateUserUseCasePresenterToken } from '@Application/common/tokens/CreateUserUseCasePresenterToken'
 import { UserController } from '@Web/controllers/UserController'
@@ -14,22 +14,26 @@ export class App extends Kondah {
     super({
       logger: new Logger('border'),
       libraries: [AppDependencyInjection, InfraDependencyInjection],
-      config: {},
+      plugins: [RestApiPlugin],
+      config: {
+        'rest-api': {
+          controllers: [UserController],
+          server: 'express',
+        },
+      },
     })
   }
 
   protected configureServices(services: Energizor): void | Promise<void> {
+    services.setDefaultScope('singleton')
+
     services.register(CreateUserUseCasePresenterToken, {
       asClass: CreateUserUseCasePresenter,
     })
-    services.register(UserController)
   }
 
   protected setup(context: AppContext): void | Promise<void> {
-    const controller = context.energizor.get(UserController)
-
-    context.server.addGlobalMiddleware(express.json())
-    context.server.router.post('/', (req, res) => controller.store(req, res))
+    context.setupControllers()
 
     context.server.run(5000)
 

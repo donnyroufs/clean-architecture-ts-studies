@@ -1,27 +1,19 @@
 import { CreateUserInputPort } from '@Application/ports/input/CreateUserInputPort'
+import { Expose } from 'class-transformer'
+import { IsNotEmpty, IsString } from 'class-validator'
 
 export class CreateUserRequestContract {
-  constructor(
-    public readonly firstName: string,
-    public readonly lastName: string
-  ) {}
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  public readonly firstName: string
 
-  /**
-   * Validates Network request and makes sure it's properly mapped
-   */
-  static from(body: Partial<CreateUserRequestContract>) {
-    if (!body.firstName) {
-      throw new Error('missing firstName')
-    }
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  public readonly lastName: string
 
-    if (!body.lastName) {
-      throw new Error('missing lastName')
-    }
-
-    return new CreateUserRequestContract(body.firstName, body.lastName)
-  }
-
-  static toCore(createUserRequestContract: CreateUserRequestContract) {
+  static toInputPort(createUserRequestContract: CreateUserRequestContract) {
     return new CreateUserInputPort(
       createUserRequestContract.firstName,
       createUserRequestContract.lastName

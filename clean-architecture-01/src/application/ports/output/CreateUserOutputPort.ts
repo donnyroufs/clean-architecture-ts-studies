@@ -6,7 +6,7 @@ export class CreateUserOutputPort {
     public readonly lastName: string
   ) {}
 
-  static from(entity: UserEntity) {
+  static fromDomain(entity: UserEntity) {
     return new CreateUserOutputPort(entity.firstName, entity.lastName)
   }
 }

@@ -18,19 +18,15 @@ export class CreateUserUseCase implements IUseCase<CreateUserInputPort> {
     private readonly _presenter: IPresenter<CreateUserInputPort>
   ) {}
 
-  async execute<T = unknown>(request: CreateUserInputPort) {
-    const entity = CreateUserInputPort.from(request)
+  async execute<T = unknown>(request: CreateUserInputPort): Promise<T> {
+    const entity = CreateUserInputPort.toDomain(request)
 
     const saved = await this._userRepository.save(entity)
 
     if (!saved) {
-      throw new FailedToPersistUserException()
+      return this._presenter.present(new FailedToPersistUserException())
     }
 
-    // TODO: We can use an automapper here
-    const createUserResponsePort = CreateUserOutputPort.from(entity)
-
-    // TODO: Improve type support?
-    return this._presenter.present(createUserResponsePort) as T
+    return this._presenter.present(CreateUserOutputPort.fromDomain(entity))
   }
 }
