@@ -6,6 +6,7 @@
 export default {
   coverageProvider: 'v8',
   roots: ['<rootDir>'],
+  setupFilesAfterEnv: ['<rootDir>/testSetup.ts'],
   moduleDirectories: ['node_modules', 'src'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
