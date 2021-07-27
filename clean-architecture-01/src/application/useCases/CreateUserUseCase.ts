@@ -1,27 +1,23 @@
 import { Inject, Injectable } from '@kondah/core'
 
 import { IUseCase } from '@Domain/common/interfaces/IUseCase'
-import {
-  IUserRepository,
-  IUserRepositoryToken,
-} from '@Application/common/interfaces/IUserRepository'
+import { IUserRepository } from '@Application/common/interfaces/IUserRepository'
 import { CreateUserInputPort } from '@Application/ports/input/CreateUserInputPort'
 import { CreateUserOutputPort } from '@Application/ports/output/CreateUserOutputPort'
 import { IPresenter } from '@Application/common/IPresenter'
 import { FailedToPersistUserException } from '@Application/common/exceptions/FailedToPersistUserException'
 import { CreateUserUseCasePresenterToken } from '@Application/common/tokens/CreateUserUseCasePresenterToken'
+import { UserRepositoryToken } from '@Application/common/tokens/UserRepositoryToken'
 
 @Injectable()
 export class CreateUserUseCase implements IUseCase<CreateUserInputPort> {
   constructor(
-    @Inject(IUserRepositoryToken)
+    @Inject(UserRepositoryToken)
     private readonly _userRepository: IUserRepository,
     @Inject(CreateUserUseCasePresenterToken)
     private readonly _presenter: IPresenter<CreateUserInputPort>
   ) {}
 
-  // Input Ports are technically Interfaces but I think classes are fine here
-  // Because we are in TypeScript and maybe we need to add annotations later down the road.
   async execute<T = unknown>(request: CreateUserInputPort) {
     const entity = CreateUserInputPort.from(request)
 

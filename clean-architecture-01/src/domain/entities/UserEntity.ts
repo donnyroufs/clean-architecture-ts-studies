@@ -18,4 +18,6 @@ export class UserEntity extends BaseEntity {
 
     return user
   }
+
+  // Behaviours (Create a post, Delete a post etc.)
 }

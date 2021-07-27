@@ -31,7 +31,9 @@ An interactor should always have an input and output port to communicate with th
 #### Input Port
 
 Technically it's an **interface** that the outer world can use to map the required data that we need. However since we are in TypeScript land we can't do much with interfaces
-therefore I have decided to use classes instead. This way we can add data annotations when required.
+therefore I have decided to use classes instead. This way we can add data annotations when required. **Also** the reason for it being an interface is probably because Bob
+does not want it to be tightly coupled, which will make testing "harder". I think it's yet another decision on whether you want to add 2 more files (mapper and impl of port)
+or create one class that does both. It's probably best practice to use this inside your DI container though!
 
 Uncle Bob also mentioned that you can decide to use function arguments or POJOs. However I think this is very case specific!
 
