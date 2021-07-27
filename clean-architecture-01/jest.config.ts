@@ -5,12 +5,16 @@
 
 export default {
   coverageProvider: 'v8',
+  roots: ['<rootDir>'],
   moduleDirectories: ['node_modules', 'src'],
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest',
+  },
   moduleNameMapper: {
-    '@/(.*)': '<rootDir>/src/$1',
+    '@Domain/(.*)': '<rootDir>/src/domain/$1',
+    '@Application/(.*)': '<rootDir>/src/application/$1',
+    '@Infra/(.*)': '<rootDir>/src/infra/$1',
+    '@Web/(.*)': '<rootDir>/src/web/$1',
   },
   testEnvironment: 'node',
-  transform: {
-    '^.+\\.ts?$': 'ts-jest',
-  },
 }
