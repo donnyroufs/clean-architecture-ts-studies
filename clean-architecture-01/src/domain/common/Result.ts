@@ -1,3 +1,5 @@
+/* Not using this at the moment */
+
 export type Result<T, E> = Ok<T, E> | Err<T, E>
 
 export class Ok<T, E> {
