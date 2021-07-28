@@ -1,6 +1,6 @@
 import { CreateUserInputPort } from '@Application/ports/input/CreateUserInputPort'
 import { Expose } from 'class-transformer'
-import { IsNotEmpty, IsString } from 'class-validator'
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator'
 
 export class CreateUserRequestContract {
   @IsString()
@@ -13,10 +13,16 @@ export class CreateUserRequestContract {
   @Expose()
   public readonly lastName: string
 
+  @IsNumber()
+  @IsNotEmpty()
+  @Expose()
+  public readonly age: number
+
   static toInputPort(createUserRequestContract: CreateUserRequestContract) {
     return new CreateUserInputPort(
       createUserRequestContract.firstName,
-      createUserRequestContract.lastName
+      createUserRequestContract.lastName,
+      createUserRequestContract.age
     )
   }
 }

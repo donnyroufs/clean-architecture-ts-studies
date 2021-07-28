@@ -5,6 +5,6 @@ export class Utils {
         .toString(16)
         .substring(1)
 
-    return S4().repeat(9).toLocaleLowerCase()
+    return S4().repeat(8).toLocaleLowerCase()
   }
 }

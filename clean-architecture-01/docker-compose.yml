@@ -19,7 +19,7 @@ services:
       - .:/usr/src/app
   db:
     image: postgres:11
-    restart: 'no'
+    restart: 'always'
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

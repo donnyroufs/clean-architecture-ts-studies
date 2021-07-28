@@ -28,6 +28,6 @@ export class UtilsSpec {
 
   @Test()
   GeneratedIdShouldBe36CharactersLong() {
-    expect(Utils.generateUniqueId()).toHaveLength(36)
+    expect(Utils.generateUniqueId()).toHaveLength(32)
   }
 }

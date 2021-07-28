@@ -8,7 +8,4 @@ export class BaseEntitySpec {
 
     expect(entity.id).toBeDefined()
   }
-
-  @Test.todo()
-  ShouldValidateTheUser() {}
 }

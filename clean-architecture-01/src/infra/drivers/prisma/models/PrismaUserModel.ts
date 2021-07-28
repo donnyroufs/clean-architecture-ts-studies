@@ -5,6 +5,7 @@ export class PrismaUserModel implements User {
   id: string
   firstName: string
   lastName: string
+  age: number
 
   static from(entity: UserEntity) {
     const model = new PrismaUserModel()
@@ -12,6 +13,7 @@ export class PrismaUserModel implements User {
     model.id = entity.id
     model.firstName = entity.firstName
     model.lastName = entity.lastName
+    model.age = entity.age
 
     return model
   }

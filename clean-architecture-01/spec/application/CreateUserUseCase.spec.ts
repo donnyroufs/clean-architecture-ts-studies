@@ -9,6 +9,7 @@ import { UserEntity } from '@Domain/entities/UserEntity'
 import { TestableApp } from './fixtures/utils/TestableApp'
 import { MockedUserRepo } from './fixtures/mocks/MockedUserRepo'
 import { MockedCreateUserPresenter } from './fixtures/mocks/MockedCreateUserPresenter'
+import { ValidationException } from '@Application/common/exceptions/ValidationException'
 
 @Describe()
 export class CreateUserUseCaseSpec {
@@ -47,7 +48,7 @@ export class CreateUserUseCaseSpec {
     const useCase = this.energizor.get(CreateUserUseCase)
     const spy = jest.spyOn(MockedUserRepo.prototype, 'save')
 
-    await useCase.execute(new CreateUserInputPort('john', 'doe'))
+    await useCase.execute(new CreateUserInputPort('john', 'doe', 14))
 
     expect(spy.mock.calls[0][0]).toBeInstanceOf(UserEntity)
   }
@@ -58,7 +59,7 @@ export class CreateUserUseCaseSpec {
 
     const useCase = this.energizor.get(CreateUserUseCase)
 
-    const r = await useCase.execute(new CreateUserInputPort('john', 'doe'))
+    const r = await useCase.execute(new CreateUserInputPort('john', 'doe', 14))
 
     expect(r).toBeInstanceOf(FailedToPersistUserException)
   }
@@ -69,8 +70,21 @@ export class CreateUserUseCaseSpec {
 
     const useCase = this.energizor.get(CreateUserUseCase)
 
-    const result = await useCase.execute(new CreateUserInputPort('john', 'doe'))
+    const result = await useCase.execute(
+      new CreateUserInputPort('john', 'doe', 14)
+    )
 
     expect(result).toBeInstanceOf(CreateUserOutputPort)
+  }
+
+  @Test()
+  async ItShouldThrowAValidationErrorWhenUserValidationFailed() {
+    const useCase = this.energizor.get(CreateUserUseCase)
+
+    const result = await useCase.execute(
+      new CreateUserInputPort('john', 'doe', 11)
+    )
+
+    expect(result).toBeInstanceOf(ValidationException)
   }
 }
