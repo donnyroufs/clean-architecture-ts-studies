@@ -1,18 +1,20 @@
 import { Injectable } from '@kondah/core'
 import { HttpError } from 'routing-controllers'
 
-import { CoreException } from '@Domain/common/CoreException'
 import { IPresenter } from '@Application/common/IPresenter'
 import { CreateUserOutputPort } from '@Application/ports/output/CreateUserOutputPort'
 import { CreateUserResponseContract } from '@Web/contracts/response/CreateUserResponseContract'
 import { HttpResponse } from '@Web/common/HttpResponse'
+import { FailedToPersistUserException } from '@Application/common/exceptions/FailedToPersistUserException'
 
 @Injectable()
 export class CreateUserUseCasePresenter
-  implements IPresenter<CreateUserOutputPort>
+  implements IPresenter<CreateUserOutputPort, FailedToPersistUserException>
 {
-  present(port: CreateUserOutputPort | CoreException): HttpResponse<string> {
-    if (port instanceof CoreException) {
+  present(
+    port: CreateUserOutputPort | FailedToPersistUserException
+  ): HttpResponse<string> {
+    if (port instanceof FailedToPersistUserException) {
       throw new HttpError(400, port.message)
     }
 
@@ -22,16 +24,3 @@ export class CreateUserUseCasePresenter
     )
   }
 }
-
-/*
-	Alternative way of handling the errors with the Result pattern would look something like this:
-	{
-			if(port.isErr) {
-				throw new HttpError(400, port.message)
-			}
-
-			return new HttpResponse(CreateUserResponseContract.fromPort(port.value).toJSON(),
-				201
-			)
-	}
-*/

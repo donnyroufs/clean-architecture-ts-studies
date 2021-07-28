@@ -1,6 +1,4 @@
-import { CoreException } from '@Domain/common/CoreException'
-
-export class FailedToPersistUserException extends CoreException {
+export class FailedToPersistUserException extends Error {
   constructor() {
     super('Failed to persist the User.')
   }
