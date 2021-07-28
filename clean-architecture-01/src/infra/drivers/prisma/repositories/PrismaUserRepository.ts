@@ -22,9 +22,7 @@ export class PrismaUserRepository implements IUserRepository {
     const userModel = PrismaUserModel.from(entity)
 
     const created = await this._database.user.create({
-      data: {
-        ...userModel,
-      },
+      data: userModel,
     })
 
     return !!created

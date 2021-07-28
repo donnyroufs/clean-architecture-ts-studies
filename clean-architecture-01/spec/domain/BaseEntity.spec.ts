@@ -3,9 +3,12 @@ import { BaseEntity } from '@Domain/common/BaseEntity'
 @Describe()
 export class BaseEntitySpec {
   @Test()
-  shouldAutoPopulateTheId() {
+  ShouldAutoPopulateTheId() {
     const entity = new BaseEntity()
 
     expect(entity.id).toBeDefined()
   }
+
+  @Test.todo()
+  ShouldValidateTheUser() {}
 }

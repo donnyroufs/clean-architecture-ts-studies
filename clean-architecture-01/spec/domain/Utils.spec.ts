@@ -3,12 +3,12 @@ import { Utils } from '@Domain/common/Utils'
 @Describe()
 export class UtilsSpec {
   @Test()
-  shouldBeDefined() {
+  ShouldBeDefined() {
     expect(new Utils()).toBeDefined()
   }
 
   @Test()
-  shouldGenerateAnIdInStringFormat() {
+  ShouldGenerateAnIdInStringFormat() {
     const id = Utils.generateUniqueId()
 
     expect(id).toBeDefined()
@@ -16,7 +16,7 @@ export class UtilsSpec {
   }
 
   @Test()
-  shouldAlwaysReturnAnUniqueId() {
+  ShouldAlwaysReturnAnUniqueId() {
     const s1 = Utils.generateUniqueId()
     const s2 = Utils.generateUniqueId()
     const s3 = Utils.generateUniqueId()
@@ -27,7 +27,7 @@ export class UtilsSpec {
   }
 
   @Test()
-  generatedIdShouldBe36CharactersLong() {
+  GeneratedIdShouldBe36CharactersLong() {
     expect(Utils.generateUniqueId()).toHaveLength(36)
   }
 }
