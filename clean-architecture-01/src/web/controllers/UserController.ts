@@ -1,13 +1,25 @@
-import { Body, HttpCode, Post } from 'routing-controllers'
+import { Body, Get, HttpCode, Param, Params, Post } from 'routing-controllers'
 
 import { CreateUserUseCase } from '@Application/useCases/CreateUserUseCase'
 import { CreateUserRequestContract } from '@Web/contracts/request/CreateUserRequestContract'
 import { HttpResponse } from '@Web/common/HttpResponse'
 import { Controller } from '@Web/plugins/RestApiPlugin'
+import { GetUserUseCase } from '@Application/useCases/GetUserUseCase'
 
-@Controller('/')
+@Controller('/users')
 export class UserController {
-  constructor(private readonly _createUserUseCase: CreateUserUseCase) {}
+  constructor(
+    private readonly _createUserUseCase: CreateUserUseCase,
+    private readonly _getUserUseCase: GetUserUseCase
+  ) {}
+
+  @Get('/:id')
+  @HttpCode(200)
+  async findOne(@Param('id') id: string) {
+    const response = await this._getUserUseCase.execute<HttpResponse>({ id })
+
+    return response.value
+  }
 
   @Post('/')
   @HttpCode(201)

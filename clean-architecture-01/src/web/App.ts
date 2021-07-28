@@ -8,6 +8,8 @@ import { CreateUserUseCasePresenter } from '@Web/presenters/CreateUserUseCasePre
 
 // This is your only dependency ever on Infra from Web
 import { InfraDependencyInjection } from '@Infra/InfraDependencyInjection'
+import { GetUserUseCasePresenterToken } from '@Application/common/tokens/GetUserUseCasePresenterToken'
+import { GetUserUseCasePresenter } from './presenters/GetUserUseCasePresenter'
 
 export class App extends Kondah {
   constructor() {
@@ -29,6 +31,10 @@ export class App extends Kondah {
 
     services.register(CreateUserUseCasePresenterToken, {
       asClass: CreateUserUseCasePresenter,
+    })
+
+    services.register(GetUserUseCasePresenterToken, {
+      asClass: GetUserUseCasePresenter,
     })
   }
 

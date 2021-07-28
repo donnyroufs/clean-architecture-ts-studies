@@ -1,6 +1,6 @@
 import { UserEntity } from '@Domain/entities/UserEntity'
 
-export class CreateUserOutputPort {
+export class GetUserOutputPort {
   constructor(
     public readonly id: string,
     public readonly firstName: string,
@@ -9,7 +9,7 @@ export class CreateUserOutputPort {
   ) {}
 
   static fromDomain(entity: UserEntity) {
-    return new CreateUserOutputPort(
+    return new GetUserOutputPort(
       entity.id,
       entity.firstName,
       entity.lastName,

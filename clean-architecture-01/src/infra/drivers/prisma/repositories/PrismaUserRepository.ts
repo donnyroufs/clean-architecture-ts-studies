@@ -5,6 +5,7 @@ import { UpdateEntity } from '@Application/common/UpdateEntity'
 import { IUserRepository } from '@Application/common/interfaces/IUserRepository'
 import { PrismaUserModel } from '@Infra/drivers/prisma/models/PrismaUserModel'
 import { PrismaDatabase } from '@Infra/drivers/prisma/PrismaDatabase'
+import { InvalidIdException } from '@Infra/common/exceptions/InvalidIdException'
 
 @Injectable()
 export class PrismaUserRepository implements IUserRepository {
@@ -14,8 +15,16 @@ export class PrismaUserRepository implements IUserRepository {
     throw new Error('Method not implemented.')
   }
 
-  findOne(id: string): Promise<UserEntity | null> {
-    throw new Error('Method not implemented.')
+  async findOne(id: string): Promise<UserEntity | null> {
+    if (!this.isValidId(id)) {
+      throw new InvalidIdException()
+    }
+
+    return this._database.user.findUnique({
+      where: {
+        id,
+      },
+    })
   }
 
   async save(entity: UserEntity): Promise<boolean> {
@@ -34,5 +43,9 @@ export class PrismaUserRepository implements IUserRepository {
 
   deleteOne(id: string): Promise<boolean> {
     throw new Error('Method not implemented.')
+  }
+
+  private isValidId(id: string) {
+    return id.length === 32
   }
 }

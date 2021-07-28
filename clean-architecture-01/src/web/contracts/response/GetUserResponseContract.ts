@@ -1,9 +1,8 @@
-import { CreateUserOutputPort } from '@Application/ports/output/CreateUserOutputPort'
+import { GetUserOutputPort } from '@Application/ports/output/GetUserOutputPort'
 import { BaseResponseContract } from '@Web/common/BaseResponseContract'
 
-export class CreateUserResponseContract extends BaseResponseContract {
+export class GetUserResponseContract extends BaseResponseContract {
   constructor(
-    public readonly id: string,
     public readonly firstName: string,
     public readonly lastName: string,
     public readonly age: number
@@ -19,9 +18,8 @@ export class CreateUserResponseContract extends BaseResponseContract {
     return this.age >= 12
   }
 
-  static fromPort(outputPort: CreateUserOutputPort) {
-    return new CreateUserResponseContract(
-      outputPort.id,
+  static fromPort(outputPort: GetUserOutputPort) {
+    return new GetUserResponseContract(
       outputPort.firstName,
       outputPort.lastName,
       outputPort.age
