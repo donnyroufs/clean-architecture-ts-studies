@@ -15,5 +15,8 @@ model User {
 
 	firstName String
 	lastName String
+
 	age Int
+
+	password String
 }

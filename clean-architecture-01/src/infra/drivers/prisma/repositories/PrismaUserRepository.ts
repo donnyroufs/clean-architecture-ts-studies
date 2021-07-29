@@ -20,11 +20,34 @@ export class PrismaUserRepository implements IUserRepository {
       throw new InvalidIdException()
     }
 
-    return this._database.user.findUnique({
+    const foundUser = await this._database.user.findUnique({
       where: {
         id,
       },
     })
+
+    if (!foundUser) {
+      return null
+    }
+
+    return PrismaUserModel.toDomain(foundUser)
+  }
+
+  async findOneByFirstName(firstName: string): Promise<UserEntity | null> {
+    // TODO: This is going to cause issues because a firstName is not unique
+    // So we should probably implement usernames!
+
+    const foundUser = await this._database.user.findFirst({
+      where: {
+        firstName,
+      },
+    })
+
+    if (!foundUser) {
+      return null
+    }
+
+    return PrismaUserModel.toDomain(foundUser)
   }
 
   async save(entity: UserEntity): Promise<boolean> {

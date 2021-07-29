@@ -1,4 +1,4 @@
-import { Body, Get, HttpCode, Param, Params, Post } from 'routing-controllers'
+import { Body, Get, HttpCode, Param, Post } from 'routing-controllers'
 
 import { CreateUserUseCase } from '@Application/useCases/CreateUserUseCase'
 import { CreateUserRequestContract } from '@Web/contracts/request/CreateUserRequestContract'

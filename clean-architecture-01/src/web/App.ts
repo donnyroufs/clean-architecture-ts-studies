@@ -1,15 +1,19 @@
 import { AppContext, Energizor, Kondah, Logger } from '@kondah/core'
 
-import { RestApiPlugin } from '@Web/plugins/RestApiPlugin'
 import { AppDependencyInjection } from '@Application/AppDependencyInjection'
 import { CreateUserUseCasePresenterToken } from '@Application/common/tokens/CreateUserUseCasePresenterToken'
-import { UserController } from '@Web/controllers/UserController'
-import { CreateUserUseCasePresenter } from '@Web/presenters/CreateUserUseCasePresenter'
+import { GetUserUseCasePresenterToken } from '@Application/common/tokens/GetUserUseCasePresenterToken'
+import { AuthenticateUserUseCasePresenterToken } from '@Application/common/tokens/AuthenticateUserUseCasePresenterToken'
 
 // This is your only dependency ever on Infra from Web
 import { InfraDependencyInjection } from '@Infra/InfraDependencyInjection'
-import { GetUserUseCasePresenterToken } from '@Application/common/tokens/GetUserUseCasePresenterToken'
-import { GetUserUseCasePresenter } from './presenters/GetUserUseCasePresenter'
+
+import { UserController } from '@Web/controllers/UserController'
+import { CreateUserUseCasePresenter } from '@Web/presenters/CreateUserUseCasePresenter'
+import { RestApiPlugin } from '@Web/plugins/RestApiPlugin'
+import { GetUserUseCasePresenter } from '@Web/presenters/GetUserUseCasePresenter'
+import { AuthController } from '@Web/controllers/AuthController'
+import { AuthenticateUserUseCasePresenter } from '@Web/presenters/AuthenticateUserUseCasePresenter'
 
 export class App extends Kondah {
   constructor() {
@@ -19,7 +23,7 @@ export class App extends Kondah {
       plugins: [RestApiPlugin],
       config: {
         'rest-api': {
-          controllers: [UserController],
+          controllers: [UserController, AuthController],
           server: 'express',
         },
       },
@@ -35,6 +39,10 @@ export class App extends Kondah {
 
     services.register(GetUserUseCasePresenterToken, {
       asClass: GetUserUseCasePresenter,
+    })
+
+    services.register(AuthenticateUserUseCasePresenterToken, {
+      asClass: AuthenticateUserUseCasePresenter,
     })
   }
 

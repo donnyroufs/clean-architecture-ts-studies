@@ -13,6 +13,11 @@ export class CreateUserRequestContract {
   @Expose()
   public readonly lastName: string
 
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  public readonly password: string
+
   @IsNumber()
   @IsNotEmpty()
   @Expose()
@@ -22,7 +27,8 @@ export class CreateUserRequestContract {
     return new CreateUserInputPort(
       createUserRequestContract.firstName,
       createUserRequestContract.lastName,
-      createUserRequestContract.age
+      createUserRequestContract.age,
+      createUserRequestContract.password
     )
   }
 }
