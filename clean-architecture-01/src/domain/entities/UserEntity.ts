@@ -6,6 +6,9 @@ export class UserEntity extends BaseEntity {
   lastName: string
   age: number
 
+  // Should this be optional?
+  password?: string
+
   static create(firstName: string, lastName: string, age: number, id?: string) {
     const user = new UserEntity()
 
@@ -23,5 +26,9 @@ export class UserEntity extends BaseEntity {
     }
 
     return user
+  }
+
+  attachPassword(password: string) {
+    this.password = password
   }
 }

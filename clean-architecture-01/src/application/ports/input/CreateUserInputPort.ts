@@ -4,14 +4,19 @@ export class CreateUserInputPort {
   constructor(
     public readonly firstName: string,
     public readonly lastName: string,
-    public readonly age: number
+    public readonly age: number,
+    public readonly password: string
   ) {}
 
   static toDomain(inputPort: CreateUserInputPort) {
-    return UserEntity.create(
+    const entity = UserEntity.create(
       inputPort.firstName,
       inputPort.lastName,
       inputPort.age
     )
+
+    entity.attachPassword(inputPort.password)
+
+    return entity
   }
 }

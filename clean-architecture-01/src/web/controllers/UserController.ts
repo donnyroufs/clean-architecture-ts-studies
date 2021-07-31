@@ -1,4 +1,11 @@
-import { Body, Get, HttpCode, Param, Params, Post } from 'routing-controllers'
+import {
+  Body,
+  Get,
+  HeaderParam,
+  HttpCode,
+  Param,
+  Post,
+} from 'routing-controllers'
 
 import { CreateUserUseCase } from '@Application/useCases/CreateUserUseCase'
 import { CreateUserRequestContract } from '@Web/contracts/request/CreateUserRequestContract'
@@ -15,8 +22,15 @@ export class UserController {
 
   @Get('/:id')
   @HttpCode(200)
-  async findOne(@Param('id') id: string) {
-    const response = await this._getUserUseCase.execute<HttpResponse>({ id })
+  async findOne(
+    @Param('id') id: string,
+    @HeaderParam('Authorization') token: string
+  ) {
+    const parsedToken = token.split(' ')[1]
+    const response = await this._getUserUseCase.execute<HttpResponse>({
+      id,
+      token: parsedToken,
+    })
 
     return response.value
   }

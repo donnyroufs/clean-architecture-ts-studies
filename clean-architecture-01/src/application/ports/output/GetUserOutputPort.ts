@@ -8,7 +8,7 @@ export class GetUserOutputPort {
     public readonly age: number
   ) {}
 
-  static fromDomain(entity: UserEntity) {
+  static fromDomain(entity: UserEntity): GetUserOutputPort {
     return new GetUserOutputPort(
       entity.id,
       entity.firstName,
