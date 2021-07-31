@@ -48,7 +48,7 @@ export class CreateUserUseCaseSpec {
     const useCase = this.energizor.get(CreateUserUseCase)
     const spy = jest.spyOn(MockedUserRepo.prototype, 'save')
 
-    await useCase.execute(new CreateUserInputPort('john', 'doe', 14))
+    await useCase.execute(new CreateUserInputPort('john', 'doe', 14, 'asdasd'))
 
     expect(spy.mock.calls[0][0]).toBeInstanceOf(UserEntity)
   }
@@ -59,7 +59,9 @@ export class CreateUserUseCaseSpec {
 
     const useCase = this.energizor.get(CreateUserUseCase)
 
-    const r = await useCase.execute(new CreateUserInputPort('john', 'doe', 14))
+    const r = await useCase.execute(
+      new CreateUserInputPort('john', 'doe', 14, 'asdasd')
+    )
 
     expect(r).toBeInstanceOf(FailedToPersistUserException)
   }
@@ -71,7 +73,7 @@ export class CreateUserUseCaseSpec {
     const useCase = this.energizor.get(CreateUserUseCase)
 
     const result = await useCase.execute(
-      new CreateUserInputPort('john', 'doe', 14)
+      new CreateUserInputPort('john', 'doe', 14, 'asdasd')
     )
 
     expect(result).toBeInstanceOf(CreateUserOutputPort)
@@ -82,7 +84,7 @@ export class CreateUserUseCaseSpec {
     const useCase = this.energizor.get(CreateUserUseCase)
 
     const result = await useCase.execute(
-      new CreateUserInputPort('john', 'doe', 11)
+      new CreateUserInputPort('john', 'doe', 11, 'asdasd')
     )
 
     expect(result).toBeInstanceOf(ValidationException)

@@ -13,6 +13,7 @@ services:
       - clean-architecture-01
     depends_on:
       - db
+      - redis
     networks:
       - clean-architecture-01
     volumes:
@@ -26,6 +27,13 @@ services:
       - POSTGRES_DB=clean-architecture-01
     ports:
       - 5432:5432
+    networks:
+      - clean-architecture-01
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    command: ["redis-server"]
     networks:
       - clean-architecture-01
 networks:
