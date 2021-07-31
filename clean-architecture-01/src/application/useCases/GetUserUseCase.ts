@@ -18,7 +18,7 @@ export class GetUserUseCase implements IUseCase<GetUserInputPort> {
     @Inject(UserRepositoryToken)
     private readonly _userRepository: IUserRepository,
     @Inject(GetUserUseCasePresenterToken)
-    private readonly _presenter: IPresenter<GetUserInputPort>,
+    private readonly _presenter: IPresenter<GetUserOutputPort>,
     private readonly _authService: AuthService
   ) {}
   async execute<T = unknown>(request: GetUserInputPort): Promise<T> {
@@ -41,7 +41,6 @@ export class GetUserUseCase implements IUseCase<GetUserInputPort> {
       return this._presenter.present(new NoUserFoundException(request.id))
     }
 
-    // TODO: Fix type
-    return this._presenter.present(GetUserOutputPort.fromDomain(entity) as any)
+    return this._presenter.present(GetUserOutputPort.fromDomain(entity))
   }
 }

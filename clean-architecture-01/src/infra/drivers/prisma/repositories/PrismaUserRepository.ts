@@ -34,9 +34,8 @@ export class PrismaUserRepository implements IUserRepository {
   }
 
   async findOneByFirstName(firstName: string): Promise<UserEntity | null> {
-    // TODO: This is going to cause issues because a firstName is not unique
-    // So we should probably implement usernames!
-
+    // firstname is not unique therefore this will break the moment we have someone with the same name
+    // but for this case-study I dont mind.
     const foundUser = await this._database.user.findFirst({
       where: {
         firstName,

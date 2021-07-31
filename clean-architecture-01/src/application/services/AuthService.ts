@@ -64,7 +64,6 @@ export class AuthService {
   }
 
   generateToken(userId: string) {
-    // TODO: Could create a configuration class that exposes the environment variables
     return jwt.sign({ userId }, process.env.JWT_SECRET)
   }
 }
