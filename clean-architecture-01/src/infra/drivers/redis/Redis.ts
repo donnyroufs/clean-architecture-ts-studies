@@ -15,6 +15,6 @@ export class Redis {
   }
 
   async get(key: string): Promise<string | null> {
-    return this._client.get(key)
+    return this._client.mget(key)
   }
 }
