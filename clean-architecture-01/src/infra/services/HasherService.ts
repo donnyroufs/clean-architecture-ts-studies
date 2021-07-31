@@ -3,6 +3,9 @@ import { Injectable } from '@kondah/core'
 
 import { IHasherService } from '@Application/common/interfaces/IHasherService'
 
+// This could be moved to Application since this is most likely not going to change
+// and if it does the entire application needs to do migrations to make sure it all
+// works again.
 @Injectable()
 export class HasherService implements IHasherService {
   async hashPassword(password: string): Promise<string> {

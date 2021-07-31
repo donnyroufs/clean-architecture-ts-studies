@@ -1,3 +1,3 @@
 export class AuthenticateUserOutputPort {
-  constructor(public readonly userId?: string) {}
+  constructor(public readonly token: string) {}
 }

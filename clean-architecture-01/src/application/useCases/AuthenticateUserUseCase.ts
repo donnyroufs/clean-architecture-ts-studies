@@ -6,6 +6,7 @@ import { UserRepositoryToken } from '@Application/common/tokens/UserRepositoryTo
 import { IPresenter } from '@Application/common/IPresenter'
 import { AuthenticateUserUseCasePresenterToken } from '@Application/common/tokens/AuthenticateUserUseCasePresenterToken'
 import { AuthService } from '@Application/services/AuthService'
+import { AuthenticateUserOutputPort } from '@Application/ports/output/AuthenticateUserOutputPort'
 import { NotAuthenticatedException } from '@Application/common/exceptions/NotAuthenticatedException'
 
 @Injectable()
@@ -20,18 +21,15 @@ export class AuthenticateUserUseCase
   ) {}
 
   async execute<T = unknown>(request: AuthenticateUserInputPort): Promise<T> {
-    const hasValidCredentionals = await this._authService.hasValidCredentials(
-      request.firstName,
-      request.password
-    )
+    try {
+      const token = await this._authService.login(
+        request.firstName,
+        request.password
+      )
 
-    if (!hasValidCredentionals) {
-      throw new NotAuthenticatedException()
+      return this._presenter.present(new AuthenticateUserOutputPort(token))
+    } catch (err) {
+      return this._presenter.present(new NotAuthenticatedException())
     }
-
-    // TODO: Create a JWT & send a long in the request?
-    // Or do we let the outer layer decide on how they want to authenticate a user?
-
-    return this._presenter.present(request)
   }
 }

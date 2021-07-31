@@ -6,6 +6,9 @@ import { PrismaDatabase } from '@Infra/drivers/prisma/PrismaDatabase'
 import { PrismaUserRepository } from '@Infra/drivers/prisma/repositories/PrismaUserRepository'
 import { HasherServiceToken } from '@Application/common/tokens/HasherServiceToken'
 import { HasherService } from './services/HasherService'
+import { Redis } from './drivers/redis/Redis'
+import { TokenStoreToken } from '@Application/common/tokens/TokenStoreToken'
+import { TokenStore } from './implementations/TokenStore'
 
 export class InfraDependencyInjection extends KondahLibrary {
   configureServices(services: Energizor): void {
@@ -15,6 +18,15 @@ export class InfraDependencyInjection extends KondahLibrary {
     })
     services.register(HasherServiceToken, {
       asClass: HasherService,
+    })
+
+    services.register(Redis)
+    services.register(TokenStoreToken, {
+      asClass: TokenStore,
+    })
+
+    services.get(Redis).createClient({
+      host: 'redis',
     })
   }
 }

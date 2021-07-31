@@ -9,6 +9,8 @@ import { GetUserUseCasePresenterToken } from '@Application/common/tokens/GetUser
 import { UserRepositoryToken } from '@Application/common/tokens/UserRepositoryToken'
 import { GetUserInputPort } from '@Application/ports/input/GetUserInputPort'
 import { GetUserOutputPort } from '@Application/ports/output/GetUserOutputPort'
+import { AuthService } from '@Application/services/AuthService'
+import { NotAuthenticatedException } from '@Application/common/exceptions/NotAuthenticatedException'
 
 @Injectable()
 export class GetUserUseCase implements IUseCase<GetUserInputPort> {
@@ -16,9 +18,19 @@ export class GetUserUseCase implements IUseCase<GetUserInputPort> {
     @Inject(UserRepositoryToken)
     private readonly _userRepository: IUserRepository,
     @Inject(GetUserUseCasePresenterToken)
-    private readonly _presenter: IPresenter<GetUserInputPort>
+    private readonly _presenter: IPresenter<GetUserInputPort>,
+    private readonly _authService: AuthService
   ) {}
   async execute<T = unknown>(request: GetUserInputPort): Promise<T> {
+    const hasAccess = this._authService.canAccessResource(
+      request.id,
+      request.token
+    )
+
+    if (!hasAccess) {
+      return this._presenter.present(new NotAuthenticatedException())
+    }
+
     const entity = await this._userRepository
       .findOne(request.id)
       .catch((err) => {
@@ -29,6 +41,7 @@ export class GetUserUseCase implements IUseCase<GetUserInputPort> {
       return this._presenter.present(new NoUserFoundException(request.id))
     }
 
-    return this._presenter.present(GetUserOutputPort.fromDomain(entity))
+    // TODO: Fix type
+    return this._presenter.present(GetUserOutputPort.fromDomain(entity) as any)
   }
 }
