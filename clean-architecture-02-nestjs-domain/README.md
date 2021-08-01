@@ -10,12 +10,35 @@ This project will focus on:
 #### Entities
 
 - User
+
   - email (unique)
   - password
   - location
+  - role
+
 - Post
+
   - title
   - content
+  - visibility
+
+---
+
+location:
+
+- State
+- Street
+
+roles:
+
+- Admin
+- User
+
+visibility:
+
+- Public
+- Hidden
+- Private
 
 #### Use Cases
 
