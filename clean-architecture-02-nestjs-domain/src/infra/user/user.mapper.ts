@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
+import { UserLocation } from '@domain/user/user-location';
+import { UserEmail } from '@domain/user/user-email';
 import { User } from '@domain/user/user.entity';
 import { IMapper } from '@application/common/IMapper';
 import { RegisterUserResponseModel } from '@application/user/models/response/register-user-response.model';
 import { UserModel } from '@infra/user/user.model';
-import { UserLocation } from '@domain/user/user-location';
-import { UserEmail } from '@domain/user/user-email';
 
 @Injectable()
 export class UserMapper
