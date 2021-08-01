@@ -1,14 +1,14 @@
 import { BaseEntity } from '@domain/common/base-entity';
 import { Visibility } from '@domain/post/visibility.enum';
 
-type PostEntityProps = {
+export type PostProps = {
   title: string;
   content: string;
   visibility: Visibility;
   authorId: string;
 };
 
-export class PostEntity extends BaseEntity<PostEntityProps> {
+export class Post extends BaseEntity<PostProps> {
   get title() {
     return this.props.title;
   }
@@ -18,18 +18,30 @@ export class PostEntity extends BaseEntity<PostEntityProps> {
   }
 
   get visibility() {
-    return this.visibility;
+    return this.props.visibility;
+  }
+
+  private constructor(props: PostProps, id?: string) {
+    super(props, id);
+  }
+
+  public isAuthor(userId: string) {
+    return userId === this.props.authorId;
   }
 
   public canVisit(userId: string) {
-    if (this.props.authorId !== userId) {
-      return false;
-    }
+    const isAuthor = this.isAuthor(userId);
 
-    if (this.visibility === Visibility.PRIVATE) {
+    if (!isAuthor && this.visibility === Visibility.PRIVATE) {
       return false;
     }
 
     return true;
+  }
+
+  static create(props: PostProps, id?: string) {
+    const post = new Post(props, id);
+
+    return post;
   }
 }
