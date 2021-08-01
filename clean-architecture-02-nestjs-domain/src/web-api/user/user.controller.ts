@@ -9,8 +9,6 @@ export class UserController {
   async store(@Body() body: any) {
     const response = await this._registerUserUseCase.execute(body);
 
-    console.log(response);
-
     return response;
   }
 }
