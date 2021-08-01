@@ -16,15 +16,15 @@ export class User extends BaseEntity<UserProps> {
   }
 
   get password() {
-    return this.password;
+    return this.props.password;
   }
 
   get location() {
-    return this.location;
+    return this.props.location;
   }
 
   get role() {
-    return this.role;
+    return this.props.role;
   }
 
   private constructor(props: UserProps, id?: string) {

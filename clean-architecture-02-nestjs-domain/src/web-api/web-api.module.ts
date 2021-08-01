@@ -1,7 +1,19 @@
 import { Module } from '@nestjs/common';
-import { ApplicationModule } from 'src/application/application.module';
+import { ApplicationModule } from '@application/application.module';
+import { UserController } from '@webApi/user/user.controller';
+import { InfraModule } from '@infra/infra.module';
 
 @Module({
-  imports: [ApplicationModule, WebApiModule],
+  imports: [
+    {
+      global: true,
+      module: ApplicationModule,
+    },
+    {
+      global: true,
+      module: InfraModule,
+    },
+  ],
+  controllers: [UserController],
 })
 export class WebApiModule {}

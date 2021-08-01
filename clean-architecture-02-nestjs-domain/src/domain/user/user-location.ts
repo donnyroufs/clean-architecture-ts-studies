@@ -8,11 +8,11 @@ type UserLocationProps = {
 };
 
 export class UserLocation extends ValueObject<UserLocationProps> {
-  get country() {
+  get country(): string {
     return this.props.country;
   }
 
-  get city() {
+  get city(): string {
     return this.props.city;
   }
 
