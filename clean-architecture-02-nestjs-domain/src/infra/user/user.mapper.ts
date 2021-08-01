@@ -11,7 +11,7 @@ import { UserEmail } from '@domain/user/user-email';
 export class UserMapper
   implements IMapper<User, RegisterUserResponseModel, UserModel>
 {
-  toPersistance(domain: User): UserModel {
+  toPersistence(domain: User): UserModel {
     return {
       id: domain.id,
       email: domain.email.value,
