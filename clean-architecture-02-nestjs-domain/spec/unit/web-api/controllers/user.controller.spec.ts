@@ -2,7 +2,7 @@ import { RegisterUserUseCase } from '@application/user/usecases/register-user.us
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from '@webApi/user/user.controller';
 
-describe.skip('UserController', () => {
+describe.skip('user-controller', () => {
   let controller: UserController;
 
   beforeEach(async () => {
