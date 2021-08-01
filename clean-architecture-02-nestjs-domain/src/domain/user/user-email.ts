@@ -21,10 +21,6 @@ export class UserEmail extends ValueObject<UserEmailProps> {
     return expression.test(email);
   }
 
-  private static format(email: string): string {
-    return email.trim().toLowerCase();
-  }
-
   public static create(email: string): UserEmail {
     if (!this.isValidEmail(email)) {
       throw new ValidationException('email');
