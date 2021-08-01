@@ -1,13 +1,15 @@
+import { PostTitle } from '@domain/post/post-title';
 import { Post } from '@domain/post/post.entity';
 import { Visibility } from '@domain/post/visibility.enum';
 
 describe('post-entity', () => {
   const postProps = {
-    title: 'title',
+    title: PostTitle.create({ value: 'title' }),
     authorId: 'authorId',
     content: 'content',
     visibility: Visibility.PUBLIC,
   };
+
   describe('when creating a new post-entity', () => {
     test('then it should return a new post', () => {
       const post = Post.create(postProps, 'id');

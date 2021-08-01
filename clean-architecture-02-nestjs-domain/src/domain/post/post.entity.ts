@@ -1,23 +1,24 @@
 import { BaseEntity } from '@domain/common/base-entity';
 import { Visibility } from '@domain/post/visibility.enum';
+import { PostTitle } from './post-title';
 
 export type PostProps = {
-  title: string;
+  title: PostTitle;
   content: string;
   visibility: Visibility;
   authorId: string;
 };
 
 export class Post extends BaseEntity<PostProps> {
-  get title() {
+  get title(): PostTitle {
     return this.props.title;
   }
 
-  get content() {
+  get content(): string {
     return this.props.content;
   }
 
-  get visibility() {
+  get visibility(): Visibility {
     return this.props.visibility;
   }
 
