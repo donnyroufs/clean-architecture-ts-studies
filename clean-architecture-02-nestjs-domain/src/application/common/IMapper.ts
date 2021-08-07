@@ -1,6 +1,7 @@
-export interface IMapper<T, O, P = unknown> {
+import { BaseEntity } from '@domain/common/base-entity';
+
+export interface IMapper<T extends BaseEntity<any>, O, P = unknown> {
   toPersistence(domain: T): P;
-  // toDomain(model: any): T & { id: BaseEntity<any>['id'] };
-  toDomain(model: any): any;
+  toDomain(model: any, id?: T['id']): T;
   toWorld(domain: T): O;
 }
