@@ -2,7 +2,7 @@ import { Guard } from '@domain/common/guard';
 import { ValueObject } from '@domain/common/value-object';
 import { ValidationException } from '@domain/exceptions/validation.exception';
 
-type UserLocationProps = {
+export type UserLocationProps = {
   city: string;
   country: string;
 };

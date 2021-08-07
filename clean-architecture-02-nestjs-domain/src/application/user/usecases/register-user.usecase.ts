@@ -8,6 +8,7 @@ import { UserMapperToken } from '@application/tokens/user-mapper.token';
 import { UserRepositoryToken } from '@application/tokens/user-repository.token';
 import { RegisterUserRequestModel } from '@application/user/models/request/register-user-request.model';
 import { RegisterUserResponseModel } from '@application/user/models/response/register-user-response.model';
+import { FailedToPersistEntityException } from '@application/exceptions/failed-to-persist-entity.exception';
 
 @Injectable()
 export class RegisterUserUseCase
@@ -23,13 +24,12 @@ export class RegisterUserUseCase
     model: RegisterUserRequestModel,
   ): Promise<RegisterUserResponseModel> {
     const generatedId = this._userRepo.generateId();
-    const entity = User.create(this._userMapper.toDomain(model), generatedId);
+    const entity = this._userMapper.toDomain(model, generatedId);
 
     const isSaved = await this._userRepo.save(entity);
 
     if (!isSaved) {
-      // TODO: Impl exception
-      throw new Error('Could not save User Entity');
+      throw new FailedToPersistEntityException('User');
     }
 
     return this._userMapper.toWorld(entity);

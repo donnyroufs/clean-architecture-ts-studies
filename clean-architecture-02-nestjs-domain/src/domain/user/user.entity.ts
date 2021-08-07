@@ -7,7 +7,7 @@ export type UserProps = {
   email: UserEmail;
   password: string;
   location: UserLocation;
-  role: Role;
+  role?: Role;
 };
 
 export class User extends BaseEntity<UserProps> {
@@ -36,6 +36,10 @@ export class User extends BaseEntity<UserProps> {
   }
 
   static create(props: UserProps, id?: string) {
+    if (!props.role) {
+      props.role = Role.USER;
+    }
+
     const user = new User(props, id);
 
     return user;
