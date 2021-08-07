@@ -1,5 +1,5 @@
-import { RegisterUserUseCase } from '@application/user/usecases/register-user.usecase';
 import { Body, Controller, Post } from '@nestjs/common';
+import { RegisterUserUseCase } from '@application/user/usecases/register-user.usecase';
 
 @Controller('users')
 export class UserController {
