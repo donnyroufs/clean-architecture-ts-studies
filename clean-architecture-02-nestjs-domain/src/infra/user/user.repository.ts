@@ -9,6 +9,7 @@ import { IMapper } from '@application/common/IMapper';
 import { UserModel } from './user.model';
 import { RegisterUserResponseModel } from '@application/user/models/response/register-user-response.model';
 import { UserMapperToken } from '@application/tokens/user-mapper.token';
+import { UserEmail } from '@domain/user/user-email';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -46,6 +47,16 @@ export class UserRepository implements IUserRepository {
 
   deleteOne(id: string): Promise<boolean> {
     throw new Error('Method not implemented.');
+  }
+
+  async exists(email: UserEmail): Promise<boolean> {
+    const alreadyExists = await this._dbContext.user.findFirst({
+      where: {
+        email: email.value,
+      },
+    });
+
+    return !!alreadyExists;
   }
 
   generateId(): string {

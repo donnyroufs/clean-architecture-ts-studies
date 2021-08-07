@@ -9,6 +9,7 @@ import { UserRepositoryToken } from '@application/tokens/user-repository.token';
 import { RegisterUserRequestModel } from '@application/user/models/request/register-user-request.model';
 import { RegisterUserResponseModel } from '@application/user/models/response/register-user-response.model';
 import { FailedToPersistEntityException } from '@application/exceptions/failed-to-persist-entity.exception';
+import { EntityAlreadyExistsException } from '@application/exceptions/entity-already-exists.exception';
 
 @Injectable()
 export class RegisterUserUseCase
@@ -25,6 +26,12 @@ export class RegisterUserUseCase
   ): Promise<RegisterUserResponseModel> {
     const generatedId = this._userRepo.generateId();
     const entity = this._userMapper.toDomain(model, generatedId);
+
+    const exists = await this._userRepo.exists(entity.email);
+
+    if (exists) {
+      throw new EntityAlreadyExistsException('User');
+    }
 
     const isSaved = await this._userRepo.save(entity);
 

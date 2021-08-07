@@ -12,6 +12,7 @@ import { UserEmail } from '@domain/user/user-email';
 import { UserLocation } from '@domain/user/user-location';
 import { Role } from '@domain/user/roles.enum';
 import { FailedToPersistEntityException } from '@application/exceptions/failed-to-persist-entity.exception';
+import { EntityAlreadyExistsException } from '@application/exceptions/entity-already-exists.exception';
 
 jest.mock('@infra/user/user.repository');
 jest.mock('@infra/user/user.mapper');
@@ -39,6 +40,7 @@ describe('register-user-usecase', () => {
     useCase = moduleRef.get(RegisterUserUseCase);
     userRepo = moduleRef.get<UserRepository>(UserRepositoryToken);
     userMapper = moduleRef.get<UserMapper>(UserMapperToken);
+
     mocked(userMapper).toDomain.mockReturnValue(
       User.create({
         email: UserEmail.create('user@mail.com'),
@@ -50,6 +52,10 @@ describe('register-user-usecase', () => {
         role: Role.USER,
       }),
     );
+
+    mocked(userRepo.exists).mockReturnValue(new Promise((res) => res(false)));
+
+    jest.restoreAllMocks();
   });
 
   test('should save the entity', async () => {
@@ -91,6 +97,21 @@ describe('register-user-usecase', () => {
 
     expect(userMapper.toWorld).toHaveBeenCalledWith(
       expect.objectContaining({ password: 'secret' }),
+    );
+  });
+
+  test('it should throw an exception when the user already exists', async () => {
+    mocked(userRepo.exists).mockReturnValueOnce(
+      new Promise((res) => res(true)),
+    );
+
+    const model = new RegisterUserRequestModel('test@mail.com', 'asdasd', {
+      city: 'London',
+      country: 'England',
+    });
+
+    expect(async () => await useCase.execute(model)).rejects.toThrowError(
+      EntityAlreadyExistsException,
     );
   });
 });
