@@ -23,6 +23,20 @@ export class UserRepository implements IUserRepository {
     >,
   ) {}
 
+  async findOneByEmail(email: UserEmail): Promise<User | null> {
+    const foundUser = await this._dbContext.user.findFirst({
+      where: {
+        email: email.value,
+      },
+    });
+
+    if (!foundUser) {
+      return null;
+    }
+
+    return this._userMapper.toDomain(foundUser);
+  }
+
   find(): Promise<User[]> {
     throw new Error('Method not implemented.');
   }
