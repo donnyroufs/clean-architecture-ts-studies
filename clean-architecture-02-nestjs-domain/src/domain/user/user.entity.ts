@@ -35,6 +35,10 @@ export class User extends BaseEntity<UserProps> {
     return this.role === Role.ADMIN;
   }
 
+  public setHashedPassword(password: string) {
+    this.props.password = password;
+  }
+
   static create(props: UserProps, id?: string) {
     if (!props.role) {
       props.role = Role.USER;

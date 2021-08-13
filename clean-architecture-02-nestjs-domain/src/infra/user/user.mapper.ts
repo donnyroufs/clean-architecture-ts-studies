@@ -27,8 +27,8 @@ export class UserMapper
       {
         email: UserEmail.create(model.email),
         location: UserLocation.create({
-          city: model.location.city,
-          country: model.location.country,
+          city: model.location?.city || model.city,
+          country: model.location?.country || model.country,
         }),
         password: model.password,
         role: model.role,

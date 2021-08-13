@@ -1,17 +1,19 @@
-import argon from 'argon2';
+import bcrypt from 'bcryptjs';
 import { Injectable } from '@nestjs/common';
 
 import { IHashService } from '@application/interfaces/IHashService';
 
 @Injectable()
 export class HashService implements IHashService {
-  async hashPassword(password: string): Promise<string> {
-    const hashed = await argon.hash(password);
+  static SALT = 10;
 
-    return hashed.toString();
+  async hashPassword(password: string): Promise<string> {
+    const hashed = await bcrypt.hash(password, HashService.SALT);
+
+    return hashed;
   }
 
-  verify(hashedPassword: string, password: string): Promise<boolean> {
-    return argon.verify(hashedPassword, password);
+  async verify(password: string, hashedPassword: string): Promise<boolean> {
+    return bcrypt.compare(password, hashedPassword);
   }
 }

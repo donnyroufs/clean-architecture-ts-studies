@@ -10,6 +10,7 @@ import { RegisterUserRequestModel } from '@application/user/models/request/regis
 import { RegisterUserResponseModel } from '@application/user/models/response/register-user-response.model';
 import { FailedToPersistEntityException } from '@application/exceptions/failed-to-persist-entity.exception';
 import { EntityAlreadyExistsException } from '@application/exceptions/entity-already-exists.exception';
+import { AuthService } from '@application/services/auth.service';
 
 @Injectable()
 export class RegisterUserUseCase
@@ -19,6 +20,7 @@ export class RegisterUserUseCase
     @Inject(UserRepositoryToken) private readonly _userRepo: IUserRepository,
     @Inject(UserMapperToken)
     private readonly _userMapper: IMapper<User, RegisterUserResponseModel>,
+    private readonly _authService: AuthService,
   ) {}
 
   async execute(
@@ -32,6 +34,12 @@ export class RegisterUserUseCase
     if (exists) {
       throw new EntityAlreadyExistsException('User');
     }
+
+    const hashedPassword = await this._authService.hashPassword(
+      entity.password,
+    );
+
+    entity.setHashedPassword(hashedPassword);
 
     const isSaved = await this._userRepo.save(entity);
 

@@ -13,6 +13,11 @@ import { UserLocation } from '@domain/user/user-location';
 import { Role } from '@domain/user/roles.enum';
 import { FailedToPersistEntityException } from '@application/exceptions/failed-to-persist-entity.exception';
 import { EntityAlreadyExistsException } from '@application/exceptions/entity-already-exists.exception';
+import { AuthService } from '@application/services/auth.service';
+import { HashServiceToken } from '@application/tokens/hash-service.token';
+import { HashService } from '@infra/implementations/hash.service';
+import { TokenServiceToken } from '@application/tokens/token-service.token';
+import { TokenService } from '@infra/implementations/token.service';
 
 jest.mock('@infra/user/user.repository');
 jest.mock('@infra/user/user.mapper');
@@ -33,6 +38,15 @@ describe('register-user-usecase', () => {
         {
           provide: UserRepositoryToken,
           useClass: UserRepository,
+        },
+        AuthService,
+        {
+          provide: HashServiceToken,
+          useClass: HashService,
+        },
+        {
+          provide: TokenServiceToken,
+          useClass: TokenService,
         },
       ],
     }).compile();
@@ -96,7 +110,7 @@ describe('register-user-usecase', () => {
     await useCase.execute(model);
 
     expect(userMapper.toWorld).toHaveBeenCalledWith(
-      expect.objectContaining({ password: 'secret' }),
+      expect.objectContaining({ role: Role.USER }),
     );
   });
 

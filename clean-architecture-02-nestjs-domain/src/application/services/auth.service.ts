@@ -41,4 +41,8 @@ export class AuthService {
   async isAuthenticated(token: string): Promise<boolean> {
     return this._tokenService.verify(token);
   }
+
+  async hashPassword(password: string) {
+    return this._hashService.hashPassword(password);
+  }
 }
