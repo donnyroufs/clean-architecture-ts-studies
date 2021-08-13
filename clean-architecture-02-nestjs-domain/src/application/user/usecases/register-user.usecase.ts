@@ -6,26 +6,24 @@ import { IUseCase } from '@application/common/IUseCase';
 import { IUserRepository } from '@application/interfaces/IUserRepository';
 import { UserMapperToken } from '@application/tokens/user-mapper.token';
 import { UserRepositoryToken } from '@application/tokens/user-repository.token';
-import { RegisterUserRequestModel } from '@application/user/models/request/register-user-request.model';
-import { RegisterUserResponseModel } from '@application/user/models/response/register-user-response.model';
 import { FailedToPersistEntityException } from '@application/exceptions/failed-to-persist-entity.exception';
 import { EntityAlreadyExistsException } from '@application/exceptions/entity-already-exists.exception';
 import { AuthService } from '@application/services/auth.service';
+import { IRegisterUserDto } from '../dtos/register-user.dto';
+import { IUserDto } from '../dtos/user.dto';
 
 @Injectable()
 export class RegisterUserUseCase
-  implements IUseCase<RegisterUserRequestModel, RegisterUserResponseModel>
+  implements IUseCase<IRegisterUserDto, IUserDto>
 {
   constructor(
     @Inject(UserRepositoryToken) private readonly _userRepo: IUserRepository,
     @Inject(UserMapperToken)
-    private readonly _userMapper: IMapper<User, RegisterUserResponseModel>,
+    private readonly _userMapper: IMapper<User, IUserDto>,
     private readonly _authService: AuthService,
   ) {}
 
-  async execute(
-    model: RegisterUserRequestModel,
-  ): Promise<RegisterUserResponseModel> {
+  async execute(model: IRegisterUserDto): Promise<IUserDto> {
     const generatedId = this._userRepo.generateId();
     const entity = this._userMapper.toDomain(model, generatedId);
 
@@ -47,6 +45,6 @@ export class RegisterUserUseCase
       throw new FailedToPersistEntityException('User');
     }
 
-    return this._userMapper.toWorld(entity);
+    return this._userMapper.toDto(entity);
   }
 }

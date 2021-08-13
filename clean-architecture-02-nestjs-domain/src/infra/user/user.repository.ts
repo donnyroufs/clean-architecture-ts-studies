@@ -7,20 +7,16 @@ import { IUserRepository } from '@application/interfaces/IUserRepository';
 import { DBContext } from '@infra/prisma/db.context';
 import { IMapper } from '@application/common/IMapper';
 import { UserModel } from './user.model';
-import { RegisterUserResponseModel } from '@application/user/models/response/register-user-response.model';
 import { UserMapperToken } from '@application/tokens/user-mapper.token';
 import { UserEmail } from '@domain/user/user-email';
+import { IUserDto } from '@application/user/dtos/user.dto';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(
     private readonly _dbContext: DBContext,
     @Inject(UserMapperToken)
-    private readonly _userMapper: IMapper<
-      User,
-      RegisterUserResponseModel,
-      UserModel
-    >,
+    private readonly _userMapper: IMapper<User, IUserDto, UserModel>,
   ) {}
 
   async findOneByEmail(email: UserEmail): Promise<User | null> {

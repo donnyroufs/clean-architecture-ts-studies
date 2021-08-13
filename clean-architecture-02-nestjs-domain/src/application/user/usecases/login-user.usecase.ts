@@ -9,21 +9,18 @@ import { IUserRepository } from '@application/interfaces/IUserRepository';
 import { AuthService } from '@application/services/auth.service';
 import { UserMapperToken } from '@application/tokens/user-mapper.token';
 import { UserRepositoryToken } from '@application/tokens/user-repository.token';
-import { LoginUserRequestModel } from '@application/user/models/request/login-user-request.model';
-import { LoginUserResponseModel } from '@application/user/models/response/login-user-response.model';
-import { RegisterUserResponseModel } from '@application/user/models/response/register-user-response.model';
+import { ILoginUserDto } from '../dtos/login-user.dto';
+import { IUserDto } from '../dtos/user.dto';
 
-export class LoginUserUseCase
-  implements IUseCase<LoginUserRequestModel, LoginUserResponseModel>
-{
+export class LoginUserUseCase implements IUseCase<ILoginUserDto, IUserDto> {
   constructor(
     private readonly _authService: AuthService,
     @Inject(UserMapperToken)
-    private readonly _userMapper: IMapper<User, RegisterUserResponseModel>,
+    private readonly _userMapper: IMapper<User, IUserDto>,
     @Inject(UserRepositoryToken) private readonly _userRepo: IUserRepository,
   ) {}
 
-  async execute(model: LoginUserRequestModel): Promise<LoginUserResponseModel> {
+  async execute(model: ILoginUserDto): Promise<IUserDto> {
     const user = await this._userRepo.findOneByEmail(
       UserEmail.create(model.email),
     );
@@ -34,15 +31,8 @@ export class LoginUserUseCase
 
     const token = await this._authService.login(user.email, model.password);
 
-    // TODO: Move to mapper
-    const response = new LoginUserResponseModel();
+    // TODO: Add token?
 
-    response.id = user.id!;
-    response.location = user.location;
-    response.role = user.role;
-    response.token = token;
-    response.email = user.email.value;
-
-    return response;
+    return this._userMapper.toDto(user);
   }
 }

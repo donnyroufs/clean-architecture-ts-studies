@@ -4,13 +4,11 @@ import { UserLocation } from '@domain/user/user-location';
 import { UserEmail } from '@domain/user/user-email';
 import { User } from '@domain/user/user.entity';
 import { IMapper } from '@application/common/IMapper';
-import { RegisterUserResponseModel } from '@application/user/models/response/register-user-response.model';
 import { UserModel } from '@infra/user/user.model';
+import { IUserDto } from '@application/user/dtos/user.dto';
 
 @Injectable()
-export class UserMapper
-  implements IMapper<User, RegisterUserResponseModel, UserModel>
-{
+export class UserMapper implements IMapper<User, IUserDto, UserModel> {
   toPersistence(domain: User): UserModel {
     return {
       id: domain.id,
@@ -37,11 +35,7 @@ export class UserMapper
     );
   }
 
-  toWorld(domain: User): RegisterUserResponseModel {
-    if (!domain.id) {
-      throw new Error('Missing Id for User Entity');
-    }
-
+  toDto(domain: User): IUserDto {
     return {
       id: domain.id,
       email: domain.email.value,
