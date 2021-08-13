@@ -11,4 +11,9 @@ export class TokenService implements ITokenService {
 
     return !!isValid;
   }
+
+  // TODO: Setup type in app?
+  decode(token: string): unknown {
+    return jwt.decode(token);
+  }
 }

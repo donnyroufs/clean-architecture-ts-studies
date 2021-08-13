@@ -5,6 +5,6 @@ import { RegisterUserUseCase } from './user/usecases/register-user.usecase';
 
 @Module({
   providers: [RegisterUserUseCase, AuthService, LoginUserUseCase],
-  exports: [RegisterUserUseCase, LoginUserUseCase],
+  exports: [RegisterUserUseCase, LoginUserUseCase, AuthService],
 })
 export class ApplicationModule {}

@@ -37,8 +37,18 @@ export class UserRepository implements IUserRepository {
     throw new Error('Method not implemented.');
   }
 
-  findOne(id: string): Promise<User> {
-    throw new Error('Method not implemented.');
+  async findOne(id: string): Promise<User> {
+    const foundUser = await this._dbContext.user.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!foundUser) {
+      return null;
+    }
+
+    return this._userMapper.toDomain(foundUser);
   }
 
   async save(entity: User): Promise<boolean> {

@@ -31,7 +31,7 @@ export class LoginUserUseCase implements IUseCase<ILoginUserDto, IUserDto> {
 
     const token = await this._authService.login(user.email, model.password);
 
-    // TODO: Add token?
+    user.setToken(token);
 
     return this._userMapper.toDto(user);
   }

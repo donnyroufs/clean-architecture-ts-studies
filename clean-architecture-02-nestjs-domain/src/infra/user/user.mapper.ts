@@ -4,8 +4,8 @@ import { UserLocation } from '@domain/user/user-location';
 import { UserEmail } from '@domain/user/user-email';
 import { User } from '@domain/user/user.entity';
 import { IMapper } from '@application/common/IMapper';
-import { UserModel } from '@infra/user/user.model';
 import { IUserDto } from '@application/user/dtos/user.dto';
+import { UserModel } from '@infra/user/user.model';
 
 @Injectable()
 export class UserMapper implements IMapper<User, IUserDto, UserModel> {
@@ -20,18 +20,18 @@ export class UserMapper implements IMapper<User, IUserDto, UserModel> {
     };
   }
 
-  toDomain(model: any, id?: User['id']): User {
+  toDomain(raw: any, id?: User['id']): User {
     return User.create(
       {
-        email: UserEmail.create(model.email),
+        email: UserEmail.create(raw.email),
         location: UserLocation.create({
-          city: model.location?.city || model.city,
-          country: model.location?.country || model.country,
+          city: raw.location?.city || raw.city,
+          country: raw.location?.country || raw.country,
         }),
-        password: model.password,
-        role: model.role,
+        password: raw.password,
+        role: raw.role,
       },
-      model.id || id,
+      raw.id || id,
     );
   }
 
@@ -44,6 +44,7 @@ export class UserMapper implements IMapper<User, IUserDto, UserModel> {
         country: domain.location.country,
       },
       role: domain.role,
+      token: domain.token,
     };
   }
 }

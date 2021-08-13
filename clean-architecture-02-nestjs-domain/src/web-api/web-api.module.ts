@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { APP_FILTER } from '@nestjs/core';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 
 import { ApplicationModule } from '@application/application.module';
 import { InfraModule } from '@infra/infra.module';
 import { UserController } from '@webApi/user/user.controller';
+import { AuthMiddleware } from './common/middleware/auth.middleware';
 
 @Module({
   imports: [
@@ -18,4 +18,8 @@ import { UserController } from '@webApi/user/user.controller';
   ],
   controllers: [UserController],
 })
-export class WebApiModule {}
+export class WebApiModule {
+  public configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(AuthMiddleware).forRoutes('*');
+  }
+}
