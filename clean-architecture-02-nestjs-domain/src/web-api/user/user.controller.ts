@@ -4,8 +4,6 @@ import {
   Controller,
   Post,
   BadRequestException,
-  UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { RegisterUserUseCase } from '@application/user/usecases/register-user.usecase';
 import { FailedToPersistEntityException } from '@application/exceptions/failed-to-persist-entity.exception';
@@ -43,7 +41,6 @@ export class UserController {
   }
 
   @Post('/login')
-  @UseInterceptors(ClassSerializerInterceptor)
   async login(@Body() body: LoginUserRequestContract) {
     const result = await this._loginUserUseCase.execute(body).catch((err) => {
       if (err instanceof NotAuthenticatedException) {
@@ -52,6 +49,6 @@ export class UserController {
       }
     });
 
-    return new LoginUserResponseContract(result as IUserDto).toJSON();
+    return new LoginUserResponseContract(result as IUserDto);
   }
 }

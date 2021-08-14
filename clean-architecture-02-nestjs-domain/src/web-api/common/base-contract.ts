@@ -8,7 +8,7 @@ export abstract class BaseContract<T> {
     const jsonObj: any = Object.assign({}, this);
 
     Object.entries(Object.getOwnPropertyDescriptors(proto))
-      .filter(([key, descriptor]) => typeof descriptor.get === 'function')
+      .filter(([, descriptor]) => typeof descriptor.get === 'function')
       .map(([key, descriptor]) => {
         if (descriptor && key[0] !== '_') {
           try {
