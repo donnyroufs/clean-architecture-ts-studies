@@ -14,8 +14,6 @@ import { UserMapper } from '@infra/user/user.mapper';
 import { UserModel } from '@infra/user/user.model';
 import { UserRepository } from '@infra/user/user.repository';
 
-// TODO: Fix tests setup
-
 jest.mock('@infra/prisma/db.context', () => ({
   DBContext: jest.fn().mockImplementation(() => ({
     user: {
