@@ -5,7 +5,5 @@
 - [x] Register
 - [x] Login
 
-- [ ] Create Post
-- [ ] Get A Post
-
-- [ ] Get Posts By User
+- [x] Create Post
+- [x] Get A Post
