@@ -34,6 +34,21 @@ export class PostRepository implements IPostRepository {
     throw new Error('Method not implemented.');
   }
 
+  async findOneBySlugAndAuthorId(slug: string, authorId: Post['id']) {
+    const foundPost = await this._dbContext.post.findFirst({
+      where: {
+        slug,
+        authorId,
+      },
+    });
+
+    if (!foundPost) {
+      return null;
+    }
+
+    return this._postMapper.toDomain(foundPost);
+  }
+
   async findOne(id: string): Promise<Post> {
     const foundPost = await this._dbContext.post.findFirst({
       where: {

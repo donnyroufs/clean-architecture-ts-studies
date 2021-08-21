@@ -1,11 +1,15 @@
 import { EntityAlreadyExistsException } from '@application/exceptions/entity-already-exists.exception';
+import { EntityNotFoundException } from '@application/exceptions/entity-not-found.exception';
 import { FailedToPersistEntityException } from '@application/exceptions/failed-to-persist-entity.exception';
 import { NotAuthenticatedException } from '@application/exceptions/not-authenticated.exception';
+import { NotAuthorizedException } from '@application/exceptions/not-authorized.exception';
 import {
   ArgumentsHost,
   BadRequestException,
   Catch,
   ExceptionFilter,
+  ForbiddenException,
+  NotFoundException,
   UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -30,6 +34,14 @@ export class CommonDomainExceptionsFilter
 
     if (exception instanceof NotAuthenticatedException) {
       return super.catch(new UnauthorizedException(exception.message), host);
+    }
+
+    if (exception instanceof EntityNotFoundException) {
+      return super.catch(new NotFoundException(exception.message), host);
+    }
+
+    if (exception instanceof NotAuthorizedException) {
+      return super.catch(new ForbiddenException(exception.message), host);
     }
 
     return super.catch(exception, host);
