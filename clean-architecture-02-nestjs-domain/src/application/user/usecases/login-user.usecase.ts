@@ -1,5 +1,6 @@
 import { Inject } from '@nestjs/common';
 
+import { UserToken } from '@domain/user/user-token';
 import { UserEmail } from '@domain/user/user-email';
 import { User } from '@domain/user/user.entity';
 import { IMapper } from '@application/common/IMapper';
@@ -31,7 +32,11 @@ export class LoginUserUseCase implements IUseCase<ILoginUserDto, IUserDto> {
 
     const token = await this._authService.login(user.email, model.password);
 
-    user.setToken(token);
+    user.setToken(
+      UserToken.create({
+        value: token,
+      }),
+    );
 
     return this._userMapper.toDto(user);
   }

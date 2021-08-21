@@ -1,7 +1,8 @@
 import bcrypt from 'bcryptjs';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Provider } from '@nestjs/common';
 
 import { IHashService } from '@application/interfaces/IHashService';
+import { HashServiceToken } from '@application/tokens/hash-service.token';
 
 @Injectable()
 export class HashService implements IHashService {
@@ -17,3 +18,8 @@ export class HashService implements IHashService {
     return bcrypt.compare(password, hashedPassword);
   }
 }
+
+export const HashServiceProvider: Provider = {
+  provide: HashServiceToken,
+  useClass: HashService,
+};

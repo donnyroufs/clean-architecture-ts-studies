@@ -8,9 +8,6 @@ export class UserModel extends BaseModel<string> implements PrismaUser {
 
   role: Role;
 
-  // NOTE: Should this be it's own table?
-  // We definitely need to send an object of Location to
-  // the user mapper
   country: string;
   city: string;
 }

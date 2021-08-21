@@ -8,3 +8,8 @@ import { RegisterUserUseCase } from './user/usecases/register-user.usecase';
   exports: [RegisterUserUseCase, LoginUserUseCase, AuthService],
 })
 export class ApplicationModule {}
+
+export const ApplicationModuleImport = {
+  global: true,
+  module: ApplicationModule,
+};

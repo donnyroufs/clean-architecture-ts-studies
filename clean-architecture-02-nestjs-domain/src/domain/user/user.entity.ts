@@ -3,13 +3,14 @@ import { NullOr } from '@domain/common/types';
 import { Role } from '@domain/user/roles.enum';
 import { UserEmail } from '@domain/user/user-email';
 import { UserLocation } from '@domain/user/user-location';
+import { UserToken, UserTokenProps } from './user-token';
 
 export type UserProps = {
   email: UserEmail;
   password: string;
   location: UserLocation;
   role?: Role;
-  token?: NullOr<string>;
+  token?: NullOr<UserToken>;
 };
 
 export class User extends BaseEntity<UserProps> {
@@ -29,8 +30,8 @@ export class User extends BaseEntity<UserProps> {
     return this.props.role;
   }
 
-  get token(): NullOr<string> {
-    return this.props.token;
+  get token(): NullOr<UserTokenProps['value']> {
+    return this.props.token?.value || null;
   }
 
   private constructor(props: UserProps, id?: string) {
@@ -45,7 +46,7 @@ export class User extends BaseEntity<UserProps> {
     this.props.password = password;
   }
 
-  public setToken(token: string) {
+  public setToken(token: UserToken) {
     this.props.token = token;
   }
 

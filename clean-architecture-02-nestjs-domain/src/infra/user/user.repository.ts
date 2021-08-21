@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Provider } from '@nestjs/common';
 import { v4 } from 'uuid';
 
 import { User } from '@domain/user/user.entity';
@@ -10,6 +10,7 @@ import { UserModel } from './user.model';
 import { UserMapperToken } from '@application/tokens/user-mapper.token';
 import { UserEmail } from '@domain/user/user-email';
 import { IUserDto } from '@application/user/dtos/user.dto';
+import { UserRepositoryToken } from '@application/tokens/user-repository.token';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -83,3 +84,8 @@ export class UserRepository implements IUserRepository {
     return v4();
   }
 }
+
+export const UserRepositoryProvider: Provider = {
+  provide: UserRepositoryToken,
+  useClass: UserRepository,
+};

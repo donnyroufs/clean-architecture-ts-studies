@@ -12,6 +12,8 @@ import { ITokenService } from '@application/interfaces/ITokenService';
 import { UserMapperToken } from '@application/tokens/user-mapper.token';
 import { IMapper } from '@application/common/IMapper';
 import { IUserDto } from '@application/user/dtos/user.dto';
+import { JWTClaims } from '@domain/user/jwt-claims';
+import { UserToken } from '@domain/user/user-token';
 
 @Injectable()
 export class AuthService {
@@ -48,14 +50,16 @@ export class AuthService {
     return this._tokenService.verify(token);
   }
 
-  async getUserFromToken(token: string) {
-    const id = await this.getTokenClaims(token);
-    const user = await this._userRepo.findOne(id as string);
+  async getUserFromToken(token: string): Promise<IUserDto> {
+    const claims = await this.getTokenClaims(token);
+    const user = await this._userRepo.findOne(claims.id);
+
+    user.setToken(UserToken.create({ value: token }));
 
     return this._userMapper.toDto(user);
   }
 
-  async getTokenClaims(token: string) {
+  async getTokenClaims(token: string): Promise<JWTClaims> {
     return this._tokenService.decode(token);
   }
 

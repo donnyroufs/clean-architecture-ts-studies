@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Provider } from '@nestjs/common';
 
 import { UserLocation } from '@domain/user/user-location';
 import { UserEmail } from '@domain/user/user-email';
@@ -6,6 +6,7 @@ import { User } from '@domain/user/user.entity';
 import { IMapper } from '@application/common/IMapper';
 import { IUserDto } from '@application/user/dtos/user.dto';
 import { UserModel } from '@infra/user/user.model';
+import { UserMapperToken } from '@application/tokens/user-mapper.token';
 
 @Injectable()
 export class UserMapper implements IMapper<User, IUserDto, UserModel> {
@@ -44,7 +45,12 @@ export class UserMapper implements IMapper<User, IUserDto, UserModel> {
         country: domain.location.country,
       },
       role: domain.role,
-      token: domain.token,
+      token: domain?.token,
     };
   }
 }
+
+export const UserMapperProvider: Provider = {
+  provide: UserMapperToken,
+  useClass: UserMapper,
+};
