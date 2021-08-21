@@ -3,13 +3,13 @@ import { Injectable, Provider } from '@nestjs/common';
 import { UserLocation } from '@domain/user/user-location';
 import { UserEmail } from '@domain/user/user-email';
 import { User } from '@domain/user/user.entity';
-import { IMapper } from '@application/common/IMapper';
 import { IUserDto } from '@application/user/dtos/user.dto';
 import { UserModel } from '@infra/user/user.model';
 import { UserMapperToken } from '@application/tokens/user-mapper.token';
+import { IUserMapper } from '@application/interfaces/IUserMapper';
 
 @Injectable()
-export class UserMapper implements IMapper<User, IUserDto, UserModel> {
+export class UserMapper implements IUserMapper<UserModel> {
   toPersistence(domain: User): UserModel {
     return {
       id: domain.id,

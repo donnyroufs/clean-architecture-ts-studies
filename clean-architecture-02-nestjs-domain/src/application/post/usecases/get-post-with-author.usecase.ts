@@ -1,6 +1,5 @@
 import { Inject } from '@nestjs/common';
 
-import { Post } from '@domain/post/post.entity';
 import { User } from '@domain/user/user.entity';
 
 import { IMapper } from '@application/common/IMapper';
@@ -15,22 +14,22 @@ import { UserRepositoryToken } from '@application/tokens/user-repository.token';
 import { NotAuthorizedException } from '@application/exceptions/not-authorized.exception';
 import { IUserDto } from '@application/user/dtos/user.dto';
 import { IGetPostWithAuthorDto } from '../dtos/get-post-with-author.dto';
-import { IPostWithUserDto } from '../dtos/post-with-author';
-import { IPostDto } from '../dtos/post.dto';
+import { IPostWithAuthorDto } from '../dtos/post-with-author';
+import { IPostMapper } from '@application/interfaces/IPostMapper';
 
 export class GetPostWithAuthorUseCase
-  implements IUseCase<IGetPostWithAuthorDto, IPostWithUserDto>
+  implements IUseCase<IGetPostWithAuthorDto, IPostWithAuthorDto>
 {
   constructor(
     @Inject(PostMapperToken)
-    private readonly _postMapper: IMapper<Post, IPostDto>,
+    private readonly _postMapper: IPostMapper,
     @Inject(PostRepositoryToken) private readonly _postRepo: IPostRepository,
     @Inject(UserRepositoryToken) private readonly _userRepo: IUserRepository,
     @Inject(UserMapperToken)
     private readonly _userMapper: IMapper<User, IUserDto>,
   ) {}
 
-  async execute(model: IGetPostWithAuthorDto): Promise<IPostWithUserDto> {
+  async execute(model: IGetPostWithAuthorDto): Promise<IPostWithAuthorDto> {
     const post = await this._postRepo.findOneBySlugAndAuthorId(
       model.slug,
       model.authorId,
@@ -52,12 +51,6 @@ export class GetPostWithAuthorUseCase
       throw new NotAuthorizedException();
     }
 
-    const postDto = this._postMapper.toDto(post);
-    const userDto = this._userMapper.toDto(user);
-
-    return {
-      ...postDto,
-      author: userDto,
-    };
+    return this._postMapper.toPostWithAuthorDto(post, user);
   }
 }
