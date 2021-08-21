@@ -6,6 +6,8 @@ import { DBService } from '@infra/prisma/db.service';
 import { DBContext } from '@infra/prisma/db.context';
 import { HashServiceProvider } from '@infra/implementations/hash.service';
 import { TokenServiceProvider } from '@infra/implementations/token.service';
+import { PostMapperProvider } from './post/post.mapper';
+import { PostRepositoryProvider } from './post/post.repository';
 
 @Module({
   providers: [
@@ -15,12 +17,16 @@ import { TokenServiceProvider } from '@infra/implementations/token.service';
     UserMapperProvider,
     HashServiceProvider,
     TokenServiceProvider,
+    PostMapperProvider,
+    PostRepositoryProvider,
   ],
   exports: [
     UserRepositoryProvider,
     UserMapperProvider,
     HashServiceProvider,
     TokenServiceProvider,
+    PostMapperProvider,
+    PostRepositoryProvider,
   ],
 })
 export class InfraModule {}

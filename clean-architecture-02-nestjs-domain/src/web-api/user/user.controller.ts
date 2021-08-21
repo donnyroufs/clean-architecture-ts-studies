@@ -5,8 +5,6 @@ import { RegisterUserResponseContract } from './contracts/response/register-user
 import { RegisterUserRequestContract } from './contracts/request/register-user-request.contract';
 import { LoginUserRequestContract } from './contracts/request/login-user-request.contract';
 import { LoginUserResponseContract } from './contracts/response/login-user-response.contract';
-import { RegisterUserFilter } from './filters/register-user.filter';
-import { LoginUserFilter } from './filters/login-user.filter';
 
 @Controller('users')
 export class UserController {
@@ -16,17 +14,15 @@ export class UserController {
   ) {}
 
   @Post('/register')
-  @UseFilters(RegisterUserFilter)
-  async register(@Body() body: RegisterUserRequestContract) {
-    const result = await this._registerUserUseCase.execute(body);
+  async register(@Body() contract: RegisterUserRequestContract) {
+    const result = await this._registerUserUseCase.execute(contract);
 
     return new RegisterUserResponseContract(result);
   }
 
   @Post('/login')
-  @UseFilters(LoginUserFilter)
-  async login(@Body() body: LoginUserRequestContract) {
-    const result = await this._loginUserUseCase.execute(body);
+  async login(@Body() contract: LoginUserRequestContract) {
+    const result = await this._loginUserUseCase.execute(contract);
 
     return new LoginUserResponseContract(result);
   }

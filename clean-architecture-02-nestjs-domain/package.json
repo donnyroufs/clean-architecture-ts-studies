@@ -10,7 +10,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "prestart:dev": "yarn migrate",
+    "prestart:dev": "yarn prisma:migrate",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -20,7 +20,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./tests/e2e/jest-e2e.json",
-    "migrate": "prisma migrate dev --schema ./src/infra/prisma/schema.prisma"
+    "prisma:migrate": "prisma migrate dev --schema ./src/infra/prisma/schema.prisma",
+    "prisma:format": "prisma format --schema ./src/infra/prisma/schema.prisma"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.13",
@@ -35,6 +36,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6",
     "shallow-equal-object": "^1.1.1",
+    "slugify": "^1.6.0",
     "ts-results": "^3.3.0",
     "uuid": "^8.3.2"
   },

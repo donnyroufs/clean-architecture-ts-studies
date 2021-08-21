@@ -1,9 +1,11 @@
 import { BaseEntity } from '@domain/common/base-entity';
 import { Visibility } from '@domain/post/visibility.enum';
+import { PostSlug } from './post-slug';
 import { PostTitle } from './post-title';
 
 export type PostProps = {
   title: PostTitle;
+  slug: PostSlug;
   content: string;
   visibility: Visibility;
   authorId: string;
@@ -20,6 +22,14 @@ export class Post extends BaseEntity<PostProps> {
 
   get visibility(): Visibility {
     return this.props.visibility;
+  }
+
+  get slug(): string {
+    return this.props.slug.value;
+  }
+
+  get authorId(): string {
+    return this.props.authorId;
   }
 
   private constructor(props: PostProps, id?: string) {
@@ -41,8 +51,6 @@ export class Post extends BaseEntity<PostProps> {
   }
 
   static create(props: PostProps, id?: string) {
-    const post = new Post(props, id);
-
-    return post;
+    return new Post(props, id);
   }
 }

@@ -66,4 +66,8 @@ export class AuthService {
   async hashPassword(password: string) {
     return this._hashService.hashPassword(password);
   }
+
+  isValid(token: string): boolean {
+    return this._tokenService.verify(token);
+  }
 }

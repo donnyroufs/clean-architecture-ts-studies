@@ -10,19 +10,40 @@ generator client {
   provider = "prisma-client-js"
 }
 
-
 model User {
-	id String @id @db.Uuid()
+  id String @id @db.Uuid
 
-	email String @unique()
-	password String
+  email    String @unique
+  password String
 
-	city String
-	country String
-	role Role 
+  city    String
+  country String
+  role    Role
+
+  posts Post[]
+}
+
+model Post {
+  id String @id @db.Uuid
+
+  title String @unique
+  slug  String
+
+  content String @db.Text
+
+  visibility Visibility
+
+  user     User   @relation(fields: [authorId], references: [id])
+  authorId String @db.Uuid
 }
 
 enum Role {
-	USER
-	ADMIN
+  USER
+  ADMIN
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  UNLISTED
 }

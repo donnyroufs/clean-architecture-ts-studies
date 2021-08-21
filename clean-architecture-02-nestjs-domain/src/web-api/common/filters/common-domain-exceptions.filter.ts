@@ -1,16 +1,18 @@
 import { EntityAlreadyExistsException } from '@application/exceptions/entity-already-exists.exception';
 import { FailedToPersistEntityException } from '@application/exceptions/failed-to-persist-entity.exception';
+import { NotAuthenticatedException } from '@application/exceptions/not-authenticated.exception';
 import {
   ArgumentsHost,
   BadRequestException,
   Catch,
   ExceptionFilter,
+  UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 
 @Catch()
-export class RegisterUserFilter
+export class CommonDomainExceptionsFilter
   extends BaseExceptionFilter
   implements ExceptionFilter
 {
@@ -20,8 +22,14 @@ export class RegisterUserFilter
         new UnprocessableEntityException(exception.message),
         host,
       );
-    } else if (exception instanceof EntityAlreadyExistsException) {
+    }
+
+    if (exception instanceof EntityAlreadyExistsException) {
       return super.catch(new BadRequestException(exception.message), host);
+    }
+
+    if (exception instanceof NotAuthenticatedException) {
+      return super.catch(new UnauthorizedException(exception.message), host);
     }
 
     return super.catch(exception, host);

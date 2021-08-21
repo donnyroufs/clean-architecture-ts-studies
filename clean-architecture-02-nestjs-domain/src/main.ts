@@ -1,11 +1,17 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
-import { NestFactory, Reflector } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
+import { CommonDomainExceptionsFilter } from '@webApi/common/filters/common-domain-exceptions.filter';
 import { WebApiModule } from '@webApi/web-api.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(WebApiModule);
+
+  const reflector = app.get(Reflector);
+  const { httpAdapter } = app.get(HttpAdapterHost);
+
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
+  app.useGlobalFilters(new CommonDomainExceptionsFilter(httpAdapter));
 
   await app.listen(5000);
 }

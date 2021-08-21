@@ -7,5 +7,9 @@ export class DBContext {
     return this._dbService.user;
   }
 
+  get post() {
+    return this._dbService.post;
+  }
+
   constructor(private readonly _dbService: DBService) {}
 }

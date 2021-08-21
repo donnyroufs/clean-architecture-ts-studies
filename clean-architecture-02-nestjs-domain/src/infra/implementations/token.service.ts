@@ -15,9 +15,12 @@ export class TokenService implements ITokenService {
   }
 
   verify(token: string): boolean {
-    const isValid = jwt.verify(token, process.env.JWT_SECRET);
-
-    return !!isValid;
+    try {
+      jwt.verify(token, process.env.JWT_SECRET);
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 
   decode(token: string): JWTClaims {
