@@ -1,7 +1,7 @@
 import { IPostRepository } from "src/application/IPostRepository"
 import { Post } from "src/domain/Post"
 
-export class PostRepositoryImpl implements IPostRepository {
+export class LocalPostRepositoryImpl implements IPostRepository {
   private readonly _posts: Post[] = []
 
   public async save(post: Post): Promise<Post> {
