@@ -1,8 +1,9 @@
-import { IPostRepository } from "src/application/IPostRepository"
 import { Post } from "src/domain/Post"
+import { IPostRepository } from "src/application/IPostRepository"
+import { LocalDatabase } from "src/infrastructure/drivers/local-database"
 
 export class LocalPostRepositoryImpl implements IPostRepository {
-  private readonly _posts: Post[] = []
+  public constructor(private readonly _db: LocalDatabase) {}
 
   public async save(post: Post): Promise<Post> {
     this.addPost(post)
@@ -12,6 +13,13 @@ export class LocalPostRepositoryImpl implements IPostRepository {
 
   private addPost(post: Post) {
     console.log(`Added post: ${post.title}`)
-    this._posts.push(post)
+
+    // This should be abstracted to a mapper
+    this._db.add("post", {
+      id: post.id,
+      title: post.title,
+      body: post.body,
+      createdAt: post.createdAt.toDateString(),
+    })
   }
 }
