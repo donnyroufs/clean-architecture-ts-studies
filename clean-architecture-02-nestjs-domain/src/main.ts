@@ -1,4 +1,10 @@
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+// import { Request, Response } from 'express'
+import { Request, Response } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  HttpServer,
+  ValidationPipe,
+} from '@nestjs/common';
 import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { CommonDomainExceptionsFilter } from '@webApi/common/filters/common-domain-exceptions.filter';
 import { WebApiModule } from '@webApi/web-api.module';
